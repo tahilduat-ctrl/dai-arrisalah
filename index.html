@@ -51,7 +51,7 @@ a{color:var(--g)}
 const KEG=[["Khutbah Jum'at",2,2.5],["Muhadoroh Ammah",8,1.25],["Taklim Mujtama'",26,2],["Taklim Syabab",26,1.5],["Taklim Atfhal",26,1.5],["Dakwah Abra Jawwal",26,.5],["Ziyaroh",8,1],["Dakwah Ammah",8,2],["Manhaj Ilmy",26,1]];
 const N=KEG.map(k=>k[0]),TG=Object.fromEntries(KEG.map(k=>[k[0],k[1]*k[2]])),TOT=208;
 const HM=["Muharram","Safar","Rabiul Awal","Rabiul Akhir","Jumadil Awal","Jumadil Akhir","Rajab","Syaban","Ramadhan","Syawal","Dzulqa'dah","Dzulhijjah"],HR=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-let FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
+let PM="",FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
 const $=s=>document.querySelector(s),A=$("#app");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const hash=async t=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dai:"+t)))].map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -176,6 +176,7 @@ function koorView(){
   <div class="card"><h3>Presensi hari ini</h3><div class="stats">${["Hadir","Izin","Sakit","Absen","Libur"].map(s=>`<div><b>${cnt(s)}</b>${s}</div>`).join("")}<div><b>${dais.length-pr.length}</b>Belum isi</div></div></div>
   <div class="card"><div class="stats"><div><b>${r.length}</b>Kegiatan</div><div><b>${jm}</b>Jamaah</div><div><b>${fd(du)}</b>Durasi</div></div></div>
   <div class="card"><h3>Capaian per Dai (target ${TOT} jam)</h3>${dais.length?dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<div class="item"><div style="display:flex;justify-content:space-between"><span style="display:flex;gap:8px;align-items:center">${avatar(d,28)}${esc(d.name)}</span><span class="mu">${fj(t)} j · ${Math.round(t/TOT*100)}%</span></div>${bar(t,TOT)}</div>`}).join(""):'<p class="mu">Belum ada dai.</p>'}</div>
+  <div class="card"><h3>Rekap per Dai</h3><div class="tw"><table><tr><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>KM</th><th>Tempat</th></tr>${dais.map(d=>{const q=inP.filter(x=>x.dai===d.id),s=wsum(q),tp=[...new Set(q.map(x=>x.tempat).filter(p=>p&&p!=="-"))];return `<tr><td>${esc(d.name)}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${fj(s.km)}</td><td style="white-space:normal;min-width:160px">${tp.map(p=>esc(p)).join(", ")||"–"}</td></tr>`}).join("")}</table></div></div>
   <div class="card"><h3>Rekap per Jenis Kegiatan</h3><div class="tw"><table><tr><th></th><th>Kegiatan</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const q=inP.filter(x=>x.jenis===n);return `<tr><td>${n}</td><td>${q.length}</td><td>${q.reduce((s,x)=>s+x.jamaah,0)}</td><td>${fj(q.reduce((s,x)=>s+(x.durasi||0),0)/60)}</td></tr>`}).join("")}</table></div></div>
   <div class="card"><h3>Laporan Masuk</h3><div class="row"><select onchange="F.dai=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${F.dai===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select><select onchange="F.jenis=this.value;render()"><option value="">Semua kegiatan</option>${N.map(k=>`<option ${F.jenis===k?"selected":""}>${k}</option>`).join("")}</select></div>
   <button class="s" style="margin:10px 0" onclick="csv()">⬇ Unduh CSV</button>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th><th>KM</th><th>Foto</th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td><td>${x.jenis==="Manhaj Ilmy"?"–":fj(x.km)}</td><td>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
@@ -204,24 +205,34 @@ function svgBars(lab,vals,hi){const W=320,H=160,t=18,b=22,m=Math.max(...vals,1),
  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${vals.map((v,i)=>{const h=(H-t-b)*v/m,x=10+g*i+(g-bw)/2,y=H-b-h;return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(h,1)}" rx="5" style="fill:var(--g);opacity:${i===hi?1:.45}"/><text x="${x+bw/2}" y="${y-4}" text-anchor="middle" font-size="11" style="fill:var(--tx)">${fj(v)}</text><text x="${x+bw/2}" y="${H-6}" text-anchor="middle" font-size="11" style="fill:var(--mu)">${lab[i]}</text>`}).join("")}</svg>`}
 function perCtx(){const cur=period(today()),ps={[cur.key]:cur};S.reports.forEach(x=>{const p=period(x.tgl);if(p)ps[p.key]=p});const keys=Object.keys(ps).sort((a,b)=>b-a);if(!PS||!ps[PS])PS=String(cur.key);const P=ps[PS];
  return{P,inP:S.reports.filter(x=>x.tgl>=P.start&&x.tgl<=P.end),sel:`<div class="card"><label style="margin-top:0">Periode (16–15 Hijriah)</label><select onchange="PS=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${PS==k?"selected":""}>${ps[k].label}</option>`).join("")}</select></div>`}}
+const fmtD=s=>D(s).toLocaleDateString("id-ID",{day:"numeric",month:"short"});
+/* Pekan selalu 7 hari berurutan (Rabu-Selasa) mulai ANCHOR; satu bulan = 4 pekan.
+   Sisa hari di akhir bulan otomatis masuk Pekan 1 bulan berikutnya (Pekan 1 tetap 7 hari). */
+const ANCHOR="2026-10-07",BASEKEY=1448*12+4;
+const mIdx=s=>Math.floor(Math.floor(dif(s,ANCHOR)/7)/4);
+const mLabel=i=>{const k=BASEKEY+i;return HM[((k%12)+12)%12]+" "+Math.floor(k/12)+"H"};
+const mWeeks=i=>[0,1,2,3].map(j=>({n:j+1,start:iso(addD(D(ANCHOR),i*28+7*j)),end:iso(addD(D(ANCHOR),i*28+7*j+6))}));
+function monthCtx(){const cur=mIdx(today()),ms=new Set([cur]);S.reports.forEach(x=>ms.add(mIdx(x.tgl)));
+ const keys=[...ms].sort((a,b)=>b-a);if(PM===""||!ms.has(+PM))PM=String(cur);const W=mWeeks(+PM),a=W[0].start,b=W[3].end;
+ return{M:{label:mLabel(+PM)},W,inM:S.reports.filter(x=>x.tgl>=a&&x.tgl<=b),sel:`<div class="card"><label style="margin-top:0">Bulan Hijriah</label><select onchange="PM=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${+PM===k?"selected":""}>${mLabel(k)}</option>`).join("")}</select><div class="mu" style="margin-top:6px">Data: ${fmtD(a)} – ${fmtD(b)} · 4 pekan, tiap pekan 7 hari (Rabu–Selasa)</div></div>`}}
 const MTL={n:"Kegiatan",j:"Jamaah",h:"Jam"};
 function pknView(){
- const{P,sel,inP}=perCtx(),W=weeks(P),t=today();
+ const{W,inM:inP,sel}=monthCtx(),t=today();
  if(!(WK>=1&&WK<=W.length)){const c=W.find(w=>t>=w.start&&t<=w.end);WK=c?c.n:1}
  const w=W[WK-1],rw=inW(inP,w),T=wsum(rw),per=W.map(x=>wsum(inW(inP,x)));
  const dais=S.users.filter(u=>u.role==="dai").map(u=>({u,...wsum(rw.filter(x=>x.dai===u.id))})).sort((a,b)=>b.h-a.h),mx=Math.max(...dais.map(d=>d.h),1);
- return sel+`<div class="card"><h3>Perkembangan per Pekan</h3><div class="pills">${Object.keys(MTL).map(k=>`<button class="${MT===k?"on":""}" onclick="MT='${k}';render()">${MTL[k]}</button>`).join("")}</div>${svgBars(W.map(x=>"Pkn "+x.n),per.map(p=>p[MT]),WK-1)}<div class="mu">Total ${MTL[MT].toLowerCase()} tiap pekan. Pekan 1 dimulai tanggal 16 Hijriah.</div></div>
+ return sel+`<div class="card"><h3>Perkembangan per Pekan</h3><div class="pills">${Object.keys(MTL).map(k=>`<button class="${MT===k?"on":""}" onclick="MT='${k}';render()">${MTL[k]}</button>`).join("")}</div>${svgBars(W.map(x=>"Pkn "+x.n),per.map(p=>p[MT]),WK-1)}<div class="mu">Total ${MTL[MT].toLowerCase()} tiap pekan. Sisa hari di akhir bulan masuk Pekan 1 bulan berikutnya.</div></div>
  <div class="pills">${W.map(x=>`<button class="${x.n===WK?"on":""}" onclick="WK=${x.n};render()">Pekan ${x.n}</button>`).join("")}</div>
  <div class="card"><h3>Rekap per Kegiatan · Pekan ${w.n}</h3><div class="mu" style="margin-bottom:8px">${fmtR(w)}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const s=wsum(rw.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${s.j}</td><td>${fj(s.h)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${T.j}</b></td><td><b>${fj(T.h)}</b></td></tr></table></div></div>
  <div class="card"><h3>Rekap Dai · Pekan ${w.n}</h3>${dais.length?dais.map(d=>`<div class="item"><div style="display:flex;gap:10px;align-items:center">${avatar(d.u,34)}<div style="flex:1;min-width:0"><b>${esc(d.u.name)}</b><div class="mu">${d.n} kegiatan · ${fj(d.h)} jam</div></div></div>${bar(d.h,mx)}</div>`).join(""):'<p class="mu">Belum ada dai.</p>'}</div>`}
 function pdView(){
- const{P,sel,inP}=perCtx(),dais=S.users.filter(u=>u.role==="dai").sort((a,b)=>a.name.localeCompare(b.name));
+ const{M,W,sel,inM:inP}=monthCtx(),dais=S.users.filter(u=>u.role==="dai").sort((a,b)=>a.name.localeCompare(b.name));
  if(!dais.length)return sel+'<div class="card"><p class="mu">Belum ada dai.</p></div>';
  if(!dais.some(d=>d.id===PD))PD=dais[0].id;
- const d=dais.find(x=>x.id===PD),r=inP.filter(x=>x.dai===d.id),T=wsum(r),W=weeks(P);
+ const d=dais.find(x=>x.id===PD),r=inP.filter(x=>x.dai===d.id),T=wsum(r);
  return sel+`<div class="card"><label style="margin-top:0">Pilih dai</label><select onchange="PD=this.value;render()">${dais.map(x=>`<option value="${esc(x.id)}" ${x.id===PD?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>
- <div class="card prof">${avatar(d,84)}<div style="flex:1;min-width:0"><h3 style="margin:0">${esc(d.name)}</h3><div class="mu">@${esc(d.username)}${d.libur!=null?" · libur "+HR[d.libur]:""}</div><div class="big">${fj(T.h)} <span class="mu">/ ${TOT} jam</span></div>${bar(T.h,TOT)}</div></div>
- <div class="card"><h3>Rekap per Kegiatan</h3><div class="mu" style="margin-bottom:8px">${P.label}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jam</th><th>KM</th></tr>${N.map(n=>{const s=wsum(r.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(s.km)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td></tr></table></div></div>
+ <div class="card prof">${avatar(d,84)}<div style="flex:1;min-width:0"><h3 style="margin:0">${esc(d.name)}</h3><div class="mu">@${esc(d.username)}${d.libur!=null?" · libur "+HR[d.libur]:""}</div><div class="big">${fj(T.h)} <span class="mu">jam · ${fj(T.km)} km</span></div></div></div>
+ <div class="card"><h3>Rekap per Kegiatan</h3><div class="mu" style="margin-bottom:8px">${M.label}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jam</th><th>KM</th></tr>${N.map(n=>{const s=wsum(r.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(s.km)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td></tr></table></div></div>
  <div class="card"><h3>Jam per Pekan</h3>${svgBars(W.map(x=>"Pkn "+x.n),W.map(x=>wsum(inW(r,x)).h),-1)}</div>`}
 async function addDai(){
  const nm=$("#nm").value.trim(),un=$("#un").value.trim().toLowerCase(),pw=$("#pw").value;
