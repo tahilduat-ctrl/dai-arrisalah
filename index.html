@@ -29,6 +29,11 @@ input,select,textarea{width:100%;padding:10px;border:1px solid var(--ln);border-
 .item{border-bottom:1px solid var(--ln);padding:9px 0}.item:last-child{border:0}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}.stats div{background:var(--gl);border-radius:12px;padding:10px}.stats b{font-size:21px;display:block;color:var(--g)}
 a{color:var(--g)}
+.av{border-radius:50%;object-fit:cover;background:var(--gl);color:var(--g);display:inline-grid;place-items:center;font-weight:700;flex:none}
+.th{width:40px;height:40px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-left:6px}.prev{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px}
+.fbtn{display:inline-block;margin:0;text-align:center;color:var(--tx);font-size:14px;cursor:pointer;padding:9px 10px}
+.pills{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.pills button{white-space:nowrap;border:1px solid var(--ln);background:var(--bg);color:var(--tx);border-radius:20px;padding:6px 13px;font:inherit;font-size:13px}.pills button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.prof{display:flex;gap:14px;align-items:center}
 .card{box-shadow:0 2px 12px rgba(31,122,61,.08)}
 .hero{position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(31,122,61,.28)}.hero::after{content:"☪";position:absolute;right:-4px;top:-20px;font-size:120px;opacity:.14}
 .ring{width:112px;height:112px;border-radius:50%;background:conic-gradient(var(--g2) calc(var(--p)*1%),var(--gl) 0);display:grid;place-items:center;flex:none}.ring b{width:84px;height:84px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:20px;color:var(--g)}
@@ -46,7 +51,7 @@ a{color:var(--g)}
 const KEG=[["Khutbah Jum'at",2,2.5],["Muhadoroh Ammah",8,1.25],["Taklim Mujtama'",26,2],["Taklim Syabab",26,1.5],["Taklim Atfhal",26,1.5],["Dakwah Abra Jawwal",26,.5],["Ziyaroh",8,1],["Dakwah Ammah",8,2],["Manhaj Ilmy",26,1]];
 const N=KEG.map(k=>k[0]),TG=Object.fromEntries(KEG.map(k=>[k[0],k[1]*k[2]])),TOT=208;
 const HM=["Muharram","Safar","Rabiul Awal","Rabiul Akhir","Jumadil Awal","Jumadil Akhir","Rajab","Syaban","Ramadhan","Syawal","Dzulqa'dah","Dzulhijjah"],HR=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-let sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
+let FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
 const $=s=>document.querySelector(s),A=$("#app");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const hash=async t=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dai:"+t)))].map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -61,7 +66,7 @@ const dur=(a,b)=>{if(!a||!b)return null;let m=(+b.slice(0,2))*60+ +b.slice(3)-(+
 const fd=m=>m==null?"-":Math.floor(m/60)+" j "+m%60+" m",fj=h=>(Math.round(h*10)/10).toString().replace(".",",");
 const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const EM=u=>u.trim().toLowerCase()+"@dai-arrisalah.app";
-const toR=r=>({id:r.id,dai:r.dai,daiNama:r.dai_nama,jenis:r.jenis,tgl:r.tgl,mulai:r.mulai,selesai:r.selesai,durasi:r.durasi,jamaah:r.jamaah,tempat:r.tempat,materi:r.materi,bagian:r.bagian,catatan:r.catatan,createdAt:Date.parse(r.created_at)});
+const toR=r=>({km:+r.km||0,foto:r.foto,id:r.id,dai:r.dai,daiNama:r.dai_nama,jenis:r.jenis,tgl:r.tgl,mulai:r.mulai,selesai:r.selesai,durasi:r.durasi,jamaah:r.jamaah,tempat:r.tempat,materi:r.materi,bagian:r.bagian,catatan:r.catatan,createdAt:Date.parse(r.created_at)});
 async function loadAll(){
  if(!sb||!me)return;
  const y=iso(addD(new Date(),-400));
@@ -84,7 +89,7 @@ async function init(){
 function render(){
  $("#who").innerHTML=me?`<a href="#" onclick="logout();return false">Keluar</a>`:"";
  if(!me){$("#nv").innerHTML="";return loginView()}
- const dai=me.role==="dai",L=dai?[["ber","🏠","Beranda"],["riw","🕘","Riwayat"],["lap","✍️","Laporan"],["mi","📖","Manhaj Ilmy"]]:[["rek","📊","Rekap"],["dai","👥","Dai"],["mat","📖","Manhaj Ilmy"]];
+ const dai=me.role==="dai",L=dai?[["ber","🏠","Beranda"],["riw","🕘","Riwayat"],["lap","✍️","Laporan"],["mi","📖","Manhaj Ilmy"]]:[["rek","📊","Ringkasan"],["pkn","📅","Pekanan"],["pd","👤","Per Dai"],["dai","👥","Kelola"],["mat","📖","Manhaj"]];
  if(!L.some(l=>l[0]===tab))tab=L[0][0];
  $("#nv").innerHTML=`<div class="nav">${L.map(l=>`<button class="${tab===l[0]?"on":""}" onclick="tab='${l[0]}';if(tab!=='lap')EID='';render();scrollTo(0,0)"><span>${l[1]}</span>${l[2]}</button>`).join("")}</div>`;
  dai?daiView():koorView();
@@ -104,7 +109,7 @@ async function enter(id){
  me={id:p.id,name:p.name,role:p.role,username:p.username};tab="";await loadAll()}
 
 /* ===== DAI ===== */
-function daiView(){A.innerHTML=({ber,riw,lap,mi:miDai})[tab]()}
+function daiView(){if(tab!=="lap")FOTO=null;A.innerHTML=({ber,riw,lap,mi:miDai})[tab]()}
 function ber(){
  const t=today(),per=period(t),st=stat(me.id,per),u=U(),h=hij(new Date()),di=dif(t,per.start)+1,dn=dif(per.end,per.start)+1;
  const tdy=S.reports.filter(x=>x.dai===me.id&&x.tgl===t).reduce((s,x)=>s+(x.durasi||0)/60,0);
@@ -112,16 +117,16 @@ function ber(){
  let w="";
  if(di>=20&&st.t<TOT)w+=`<div class="warn">⚠️ Hari ke-${di} dari ${dn} periode ini. Jam kerja baru ${fj(st.t)} dari ${TOT}; kurang ${fj(TOT-st.t)} jam.</div>`;
  if(libur)w+=`<div class="ok">Hari ini hari libur Anda.</div>`;else if(tdy<8)w+=`<div class="warn">⚠️ Jam kerja hari ini ${fj(tdy)} dari 8 jam. Belum tercapai.</div>`;
- return `<div class="card hero"><h2>Ahlan Wa Sahlan, Ustadz ${esc(me.name)}</h2><p>📅 ${h.d} ${HM[h.m-1]} ${h.y}H</p><p style="font-size:13px">${new Date().toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p></div>${w}
+ return `<div class="card hero" style="display:flex;gap:12px;align-items:center">${avatar(u,60)}<div><h2>Ahlan Wa Sahlan, Ustadz ${esc(me.name)}</h2><p>📅 ${h.d} ${HM[h.m-1]} ${h.y}H</p><p style="font-size:13px">${new Date().toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p></div></div>${w}
  <div class="card"><h3>Presensi hari ini</h3><div class="pres">${["Hadir","Izin","Sakit","Absen","Libur"].map(s=>`<button class="${pr?.status===s?"on":""}" onclick="setPres('${s}')">${s}</button>`).join("")}</div>
  <label>Hari libur mingguan</label><select onchange="setLibur(this.value)"><option value="">Belum dipilih</option>${HR.map((n,i)=>`<option value="${i}" ${u.libur!=null&&u.libur!==""&&+u.libur===i?"selected":""}>${n}</option>`).join("")}</select></div>
  <div class="card"><h3>Target hari ini</h3><div class="big">${fj(tdy)} <span class="mu">/ 8 jam</span></div>${bar(tdy,8)}</div>
- <div class="card"><h3>Target periode</h3><div class="mu">${per.label} · hari ke-${di}</div><div style="display:flex;gap:14px;align-items:center;margin:8px 0 12px"><div class="ring" style="--p:${Math.min(100,st.t/TOT*100)}"><b>${Math.round(st.t/TOT*100)}%</b></div><div><div class="big">${fj(st.t)} <span class="mu">/ ${TOT} jam</span></div><div class="mu">Sisa ${fj(Math.max(0,TOT-st.t))} jam</div></div></div>
+ <div class="card"><h3>Target periode</h3><div class="mu">${per.label} · hari ke-${di}</div><div style="display:flex;gap:14px;align-items:center;margin:8px 0 12px"><div class="ring" style="--p:${Math.min(100,st.t/TOT*100)}"><b>${Math.round(st.t/TOT*100)}%</b></div><div><div class="big">${fj(st.t)} <span class="mu">/ ${TOT} jam</span></div><div class="mu">Sisa ${fj(Math.max(0,TOT-st.t))} jam</div><div class="mu">Jarak tempuh: ${fj(S.reports.filter(x=>x.dai===me.id&&x.tgl>=per.start&&x.tgl<=per.end).reduce((a,x)=>a+x.km,0))} km</div></div></div>
  ${KEG.map(k=>`<div class="item"><div style="display:flex;justify-content:space-between"><span>${k[0]}</span><span class="mu">${fj(st.g[k[0]])} / ${fj(TG[k[0]])} j</span></div>${bar(st.g[k[0]],TG[k[0]])}</div>`).join("")}</div>`}
 async function setPres(s){await sb.from("presensi").upsert({dai:me.id,tgl:today(),status:s});await loadAll()}
 async function setLibur(v){await sb.from("profiles").update({libur:v===""?null:+v}).eq("id",me.id);await loadAll()}
 function riw(){const r=S.reports.filter(x=>x.dai===me.id).sort((a,b)=>(b.tgl+b.mulai).localeCompare(a.tgl+a.mulai));
- return `<div class="card"><h3>Riwayat Laporan</h3>${r.length?r.map(x=>`<div class="item"><b>${esc(x.jenis)}</b> <span class="mu">${esc(x.tgl)} · ${esc(x.mulai)}–${esc(x.selesai)} · ${fd(x.durasi)}</span><br><span class="mu">${x.jenis==="Manhaj Ilmy"?"Materi: "+esc(x.materi)+" · bagian ke-"+x.bagian:x.jamaah+" jamaah · "+esc(x.tempat)}</span>${x.createdAt&&Date.now()-x.createdAt<864e5?` <button class="s" onclick="EID='${x.id}';tab='lap';render()">Ubah</button>`:""}</div>`).join(""):'<p class="mu">Belum ada laporan.</p>'}<p class="mu">Laporan bisa diubah dalam 24 jam setelah dikirim.</p></div>`}
+ return `<div class="card"><h3>Riwayat Laporan</h3>${r.length?r.map(x=>`<div class="item"><b>${esc(x.jenis)}</b> <span class="mu">${esc(x.tgl)} · ${esc(x.mulai)}–${esc(x.selesai)} · ${fd(x.durasi)}</span><br><span class="mu">${x.jenis==="Manhaj Ilmy"?"Materi: "+esc(x.materi)+" · bagian ke-"+x.bagian:x.jamaah+" jamaah · "+esc(x.tempat)+" · "+fj(x.km)+" km"}</span>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}${x.createdAt&&Date.now()-x.createdAt<864e5?` <button class="s" onclick="EID='${x.id}';tab='lap';render()">Ubah</button>`:""}</div>`).join(""):'<p class="mu">Belum ada laporan.</p>'}<p class="mu">Laporan bisa diubah dalam 24 jam setelah dikirim.</p></div>`}
 function lap(){
  const r=S.reports.find(x=>x.id===EID)||{},mi=r.jenis==="Manhaj Ilmy";
  return `<div class="card"><h3>${EID?"Ubah Laporan":"Laporan Kegiatan"}</h3>
@@ -130,8 +135,9 @@ function lap(){
  <div class="row"><div><label>Jam mulai</label><input id="jm" type="time" value="${r.mulai||""}" oninput="calc()"></div><div><label>Jam selesai</label><input id="js" type="time" value="${r.selesai||""}" oninput="calc()"></div></div>
  <div class="dur" id="du">Durasi: ${fd(r.durasi)}</div>
  <div id="mi" style="display:${mi?"block":"none"}"><label>Materi Manhaj Ilmy yang dibaca</label><select id="mm">${S.materi.map(x=>`<option ${r.materi===x.judul?"selected":""}>${esc(x.judul)}</option>`).join("")}</select><label>Bagian / pelajaran ke-berapa yang dibaca</label><input id="bg" type="number" min="1" inputmode="numeric" value="${r.bagian||""}"></div>
- <div id="jt" style="display:${mi?"none":"block"}"><label>Jumlah jamaah</label><input id="jj" type="number" min="0" inputmode="numeric" value="${r.jamaah??""}"><label>Tempat</label><input id="tp" value="${esc(r.tempat||"")}" placeholder="Nama masjid / lokasi"></div>
+ <div id="jt" style="display:${mi?"none":"block"}"><label>Jumlah jamaah</label><input id="jj" type="number" min="0" inputmode="numeric" value="${r.jamaah??""}"><label>Tempat</label><input id="tp" value="${esc(r.tempat||"")}" placeholder="Nama masjid / lokasi"><label>Jarak tempuh (KM)</label><input id="km" type="number" min="0" step="0.1" inputmode="decimal" value="${r.km??""}" placeholder="0"></div>
  <label>Catatan (opsional)</label><textarea id="ct" rows="2">${esc(r.catatan||"")}</textarea>
+ <label>Foto kegiatan (opsional)</label><div class="row"><label class="s fbtn">📷 Kamera<input type="file" accept="image/*" capture="environment" hidden onchange="pickFoto(this)"></label><label class="s fbtn">🖼️ Galeri<input type="file" accept="image/*" hidden onchange="pickFoto(this)"></label></div><img id="fp" class="prev" src="${esc(r.foto||"")}" style="display:${r.foto?"block":"none"}" alt="">
  <div class="err" id="er"></div><button class="p" onclick="simpanLap()">${EID?"Simpan Perubahan":"Kirim Laporan"}</button>${EID?`<button class="s" style="margin-top:8px;width:100%" onclick="EID='';render()">Batal</button>`:""}</div>`}
 function togMI(){const m=$("#jk").value==="Manhaj Ilmy";$("#mi").style.display=m?"block":"none";$("#jt").style.display=m?"none":"block"}
 function calc(){$("#du").textContent="Durasi: "+fd(dur($("#jm").value,$("#js").value))}
@@ -140,9 +146,10 @@ async function simpanLap(){
  if(old&&!(old.createdAt&&Date.now()-old.createdAt<864e5))return $("#er").textContent="Batas 24 jam untuk mengubah sudah lewat.";
  const o={dai:me.id,dai_nama:me.name,jenis:j,tgl:$("#tg").value,mulai:$("#jm").value,selesai:$("#js").value,catatan:$("#ct").value.trim()};
  o.durasi=dur(o.mulai,o.selesai);
- if(m){o.materi=$("#mm")?.value;o.bagian=+$("#bg").value;o.jamaah=0;o.tempat="-"}else{o.materi=null;o.bagian=null;o.jamaah=+$("#jj").value;o.tempat=$("#tp").value.trim()}
- if(!o.tgl||o.durasi==null||(m?(!o.materi||!(o.bagian>0)):(!o.tempat||$("#jj").value===""))) return $("#er").textContent=m?"Isi tanggal, jam, materi, dan bagian ke-berapa.":"Isi tanggal, jam, jumlah jamaah, dan tempat.";
+ if(m){o.materi=$("#mm")?.value;o.bagian=+$("#bg").value;o.jamaah=0;o.tempat="-";o.km=0}else{o.materi=null;o.bagian=null;o.jamaah=+$("#jj").value;o.tempat=$("#tp").value.trim();o.km=+$("#km").value}
+ if(!o.tgl||o.durasi==null||(m?(!o.materi||!(o.bagian>0)):(!o.tempat||$("#jj").value===""||$("#km").value===""||!(o.km>=0)))) return $("#er").textContent=m?"Isi tanggal, jam, materi, dan bagian ke-berapa.":"Isi tanggal, jam, jumlah jamaah, tempat, dan jarak tempuh (KM).";
  $("#er").textContent="Menyimpan…";
+ if(FOTO){const p=me.id+"/"+Date.now()+".jpg",up=await sb.storage.from("foto").upload(p,FOTO,{contentType:"image/jpeg"});if(up.error)return $("#er").textContent="Gagal unggah foto: "+up.error.message;o.foto=sb.storage.from("foto").getPublicUrl(p).data.publicUrl}
  const{error}=EID?await sb.from("reports").update(o).eq("id",EID):await sb.from("reports").insert(o);
  if(error)return $("#er").textContent="Gagal menyimpan: "+error.message;
  EID="";tab="riw";await loadAll()}
@@ -168,19 +175,54 @@ function koorView(){
   h=`<div class="card"><label>Periode (16–15 Hijriah)</label><select onchange="PS=this.value;render()">${keys.map(k=>`<option value="${k}" ${PS==k?"selected":""}>${ps[k].label}</option>`).join("")}</select></div>
   <div class="card"><h3>Presensi hari ini</h3><div class="stats">${["Hadir","Izin","Sakit","Absen","Libur"].map(s=>`<div><b>${cnt(s)}</b>${s}</div>`).join("")}<div><b>${dais.length-pr.length}</b>Belum isi</div></div></div>
   <div class="card"><div class="stats"><div><b>${r.length}</b>Kegiatan</div><div><b>${jm}</b>Jamaah</div><div><b>${fd(du)}</b>Durasi</div></div></div>
-  <div class="card"><h3>Capaian per Dai (target ${TOT} jam)</h3>${dais.length?dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<div class="item"><div style="display:flex;justify-content:space-between"><span>${esc(d.name)}</span><span class="mu">${fj(t)} j · ${Math.round(t/TOT*100)}%</span></div>${bar(t,TOT)}</div>`}).join(""):'<p class="mu">Belum ada dai.</p>'}</div>
+  <div class="card"><h3>Capaian per Dai (target ${TOT} jam)</h3>${dais.length?dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<div class="item"><div style="display:flex;justify-content:space-between"><span style="display:flex;gap:8px;align-items:center">${avatar(d,28)}${esc(d.name)}</span><span class="mu">${fj(t)} j · ${Math.round(t/TOT*100)}%</span></div>${bar(t,TOT)}</div>`}).join(""):'<p class="mu">Belum ada dai.</p>'}</div>
   <div class="card"><h3>Rekap per Jenis Kegiatan</h3><div class="tw"><table><tr><th></th><th>Kegiatan</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const q=inP.filter(x=>x.jenis===n);return `<tr><td>${n}</td><td>${q.length}</td><td>${q.reduce((s,x)=>s+x.jamaah,0)}</td><td>${fj(q.reduce((s,x)=>s+(x.durasi||0),0)/60)}</td></tr>`}).join("")}</table></div></div>
   <div class="card"><h3>Laporan Masuk</h3><div class="row"><select onchange="F.dai=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${F.dai===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select><select onchange="F.jenis=this.value;render()"><option value="">Semua kegiatan</option>${N.map(k=>`<option ${F.jenis===k?"selected":""}>${k}</option>`).join("")}</select></div>
-  <button class="s" style="margin:10px 0" onclick="csv()">⬇ Unduh CSV</button>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
+  <button class="s" style="margin:10px 0" onclick="csv()">⬇ Unduh CSV</button>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th><th>KM</th><th>Foto</th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td><td>${x.jenis==="Manhaj Ilmy"?"–":fj(x.km)}</td><td>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
   window._r=r}
+ if(tab==="pkn")h=pknView();if(tab==="pd")h=pdView();
  if(tab==="dai"){const d=S.users.filter(u=>u.role==="dai");
-  h=`<div class="card"><h3>Tambah Akun Dai</h3><label>Nama dai</label><input id="nm"><label>Username</label><input id="un" autocapitalize="none"><label>Kata sandi awal</label><input id="pw"><div class="err" id="er"></div><button class="p" onclick="addDai()">Buat Akun</button></div>
-  <div class="card"><h3>Daftar Dai (${d.length})</h3>${d.map(x=>`<div class="item">${esc(x.name)} <span class="mu">@${esc(x.username)}${x.libur!=null&&x.libur!==""?" · libur "+HR[x.libur]:""}</span> <button class="s" onclick="delDai('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada dai.</p>'}</div>`}
+  h=`<div class="card"><h3>Tambah Akun Dai</h3><label>Nama dai</label><input id="nm"><label>Username</label><input id="un" autocapitalize="none"><label>Kata sandi awal</label><input id="pw"><label>Pas foto (opsional)</label><input id="pf" type="file" accept="image/*"><div class="err" id="er"></div><button class="p" onclick="addDai()">Buat Akun</button></div>
+  <div class="card"><h3>Daftar Dai (${d.length})</h3>${d.map(x=>`<div class="item" style="display:flex;gap:10px;align-items:center">${avatar(x,46)}<div style="flex:1;min-width:0"><b>${esc(x.name)}</b><div class="mu">@${esc(x.username)}${x.libur!=null?" · libur "+HR[x.libur]:""}</div></div><label class="s fbtn">📷 ${x.foto?"Ganti":"Foto"}<input type="file" accept="image/*" hidden onchange="setFotoDai('${esc(x.id)}',this)"></label><button class="s" onclick="delDai('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada dai.</p>'}</div>`}
  if(tab==="mat"){
   h=`<div class="card"><h3>Tambah Materi</h3><label>Judul materi / kitab</label><input id="mj"><label>Link PDF kitab</label><input id="mp" placeholder="https://…"><label>Link playlist YouTube</label><input id="my" placeholder="https://youtube.com/playlist?list=…"><div class="err" id="er"></div><button class="p" onclick="addMat()">Simpan Materi</button></div>
   <div class="card"><h3>Daftar Materi</h3>${S.materi.map(x=>`<div class="item">${esc(x.judul)} <button class="s" onclick="delMat('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada.</p>'}</div>
   <div class="card"><h3>Absensi Manhaj Ilmy Dai</h3>${S.log.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Materi</th><th>Bagian</th><th>Lama</th></tr>${[...S.log].sort((a,b)=>b.tgl.localeCompare(a.tgl)).map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.materi)}</td><td>ke-${x.bagian||"-"}</td><td>${x.menit} mnt</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada.</p>'}</div>`}
  A.innerHTML=h}
+const avatar=(u,s)=>u&&u.foto?`<img class="av" style="width:${s}px;height:${s}px" src="${esc(u.foto)}" alt="">`:`<span class="av" style="width:${s}px;height:${s}px;font-size:${s/2.3}px">${esc(((u&&u.name)||"?").trim().charAt(0).toUpperCase())}</span>`;
+async function compress(f,max,q){const b=await createImageBitmap(f),k=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",q))}
+async function pickFoto(inp){const f=inp.files[0];if(!f)return;try{FOTO=await compress(f,1200,.75);const p=$("#fp");p.src=URL.createObjectURL(FOTO);p.style.display="block"}catch(e){alert("Foto tidak bisa dibaca.")}}
+async function uploadProfil(id,f){try{const b=await compress(f,500,.8),p="profil/"+id+".jpg",up=await sb.storage.from("foto").upload(p,b,{contentType:"image/jpeg",upsert:true});if(up.error)return up.error.message;const url=sb.storage.from("foto").getPublicUrl(p).data.publicUrl+"?v="+Date.now(),r=await sb.from("profiles").update({foto:url}).eq("id",id);return r.error?r.error.message:null}catch(e){return"Foto tidak bisa dibaca."}}
+async function setFotoDai(id,inp){const f=inp.files[0];if(!f)return;const e=await uploadProfil(id,f);if(e)alert("Gagal: "+e);await loadAll()}
+/* Pekan: pekan 1 mulai di awal periode (tgl 16 Hijriah); pekan berikutnya mulai hari WS (3 = Rabu, pekan berakhir Selasa). Ubah WS bila perlu (0=Ahad ... 6=Sabtu). */
+const WS=3;
+function weeks(P){const w=[],e=D(P.end);let c=D(P.start);while(c<=e){let n=addD(c,1);while(n<=e&&n.getDay()!==WS)n=addD(n,1);const en=addD(n,-1)>e?e:addD(n,-1);w.push({n:w.length+1,start:iso(c),end:iso(en)});c=n}return w}
+const wsum=r=>({n:r.length,j:r.reduce((s,x)=>s+x.jamaah,0),h:r.reduce((s,x)=>s+(x.durasi||0),0)/60,km:r.reduce((s,x)=>s+x.km,0)});
+const inW=(r,w)=>r.filter(x=>x.tgl>=w.start&&x.tgl<=w.end);
+function fmtR(w){const g=s=>D(s).toLocaleDateString("id-ID",{day:"numeric",month:"short"}),h=s=>{const x=hij(D(s));return x.d+" "+HM[x.m-1]};return `${g(w.start)} – ${g(w.end)} · ${h(w.start)} – ${h(w.end)}`}
+function svgBars(lab,vals,hi){const W=320,H=160,t=18,b=22,m=Math.max(...vals,1),g=(W-20)/lab.length,bw=Math.min(44,g-8);
+ return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${vals.map((v,i)=>{const h=(H-t-b)*v/m,x=10+g*i+(g-bw)/2,y=H-b-h;return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(h,1)}" rx="5" style="fill:var(--g);opacity:${i===hi?1:.45}"/><text x="${x+bw/2}" y="${y-4}" text-anchor="middle" font-size="11" style="fill:var(--tx)">${fj(v)}</text><text x="${x+bw/2}" y="${H-6}" text-anchor="middle" font-size="11" style="fill:var(--mu)">${lab[i]}</text>`}).join("")}</svg>`}
+function perCtx(){const cur=period(today()),ps={[cur.key]:cur};S.reports.forEach(x=>{const p=period(x.tgl);if(p)ps[p.key]=p});const keys=Object.keys(ps).sort((a,b)=>b-a);if(!PS||!ps[PS])PS=String(cur.key);const P=ps[PS];
+ return{P,inP:S.reports.filter(x=>x.tgl>=P.start&&x.tgl<=P.end),sel:`<div class="card"><label style="margin-top:0">Periode (16–15 Hijriah)</label><select onchange="PS=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${PS==k?"selected":""}>${ps[k].label}</option>`).join("")}</select></div>`}}
+const MTL={n:"Kegiatan",j:"Jamaah",h:"Jam"};
+function pknView(){
+ const{P,sel,inP}=perCtx(),W=weeks(P),t=today();
+ if(!(WK>=1&&WK<=W.length)){const c=W.find(w=>t>=w.start&&t<=w.end);WK=c?c.n:1}
+ const w=W[WK-1],rw=inW(inP,w),T=wsum(rw),per=W.map(x=>wsum(inW(inP,x)));
+ const dais=S.users.filter(u=>u.role==="dai").map(u=>({u,...wsum(rw.filter(x=>x.dai===u.id))})).sort((a,b)=>b.h-a.h),mx=Math.max(...dais.map(d=>d.h),1);
+ return sel+`<div class="card"><h3>Perkembangan per Pekan</h3><div class="pills">${Object.keys(MTL).map(k=>`<button class="${MT===k?"on":""}" onclick="MT='${k}';render()">${MTL[k]}</button>`).join("")}</div>${svgBars(W.map(x=>"Pkn "+x.n),per.map(p=>p[MT]),WK-1)}<div class="mu">Total ${MTL[MT].toLowerCase()} tiap pekan. Pekan 1 dimulai tanggal 16 Hijriah.</div></div>
+ <div class="pills">${W.map(x=>`<button class="${x.n===WK?"on":""}" onclick="WK=${x.n};render()">Pekan ${x.n}</button>`).join("")}</div>
+ <div class="card"><h3>Rekap per Kegiatan · Pekan ${w.n}</h3><div class="mu" style="margin-bottom:8px">${fmtR(w)}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const s=wsum(rw.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${s.j}</td><td>${fj(s.h)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${T.j}</b></td><td><b>${fj(T.h)}</b></td></tr></table></div></div>
+ <div class="card"><h3>Rekap Dai · Pekan ${w.n}</h3>${dais.length?dais.map(d=>`<div class="item"><div style="display:flex;gap:10px;align-items:center">${avatar(d.u,34)}<div style="flex:1;min-width:0"><b>${esc(d.u.name)}</b><div class="mu">${d.n} kegiatan · ${fj(d.h)} jam</div></div></div>${bar(d.h,mx)}</div>`).join(""):'<p class="mu">Belum ada dai.</p>'}</div>`}
+function pdView(){
+ const{P,sel,inP}=perCtx(),dais=S.users.filter(u=>u.role==="dai").sort((a,b)=>a.name.localeCompare(b.name));
+ if(!dais.length)return sel+'<div class="card"><p class="mu">Belum ada dai.</p></div>';
+ if(!dais.some(d=>d.id===PD))PD=dais[0].id;
+ const d=dais.find(x=>x.id===PD),r=inP.filter(x=>x.dai===d.id),T=wsum(r),W=weeks(P);
+ return sel+`<div class="card"><label style="margin-top:0">Pilih dai</label><select onchange="PD=this.value;render()">${dais.map(x=>`<option value="${esc(x.id)}" ${x.id===PD?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>
+ <div class="card prof">${avatar(d,84)}<div style="flex:1;min-width:0"><h3 style="margin:0">${esc(d.name)}</h3><div class="mu">@${esc(d.username)}${d.libur!=null?" · libur "+HR[d.libur]:""}</div><div class="big">${fj(T.h)} <span class="mu">/ ${TOT} jam</span></div>${bar(T.h,TOT)}</div></div>
+ <div class="card"><h3>Rekap per Kegiatan</h3><div class="mu" style="margin-bottom:8px">${P.label}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jam</th><th>KM</th></tr>${N.map(n=>{const s=wsum(r.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(s.km)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td></tr></table></div></div>
+ <div class="card"><h3>Jam per Pekan</h3>${svgBars(W.map(x=>"Pkn "+x.n),W.map(x=>wsum(inW(r,x)).h),-1)}</div>`}
 async function addDai(){
  const nm=$("#nm").value.trim(),un=$("#un").value.trim().toLowerCase(),pw=$("#pw").value;
  if(!nm||!/^[a-z0-9._-]+$/.test(un)||pw.length<6)return $("#er").textContent="Isi nama, username (huruf kecil/angka), dan sandi min. 6 karakter.";
@@ -190,6 +232,7 @@ async function addDai(){
  if(error||!data.user)return $("#er").textContent="Gagal: "+(error?.message||"username sudah dipakai");
  const r=await sb.from("profiles").insert({id:data.user.id,username:un,name:nm,role:"dai"});
  if(r.error)return $("#er").textContent="Gagal: "+r.error.message;
+ const pf=$("#pf")?.files[0];if(pf){const e=await uploadProfil(data.user.id,pf);if(e)alert("Akun dibuat, tetapi foto gagal: "+e)}
  await loadAll()}
 async function delDai(id){if(confirm("Hapus akun dai ini? Riwayat laporannya tetap tersimpan.")){await sb.from("profiles").delete().eq("id",id);await loadAll()}}
 async function addMat(){const j=$("#mj").value.trim(),p=$("#mp").value.trim(),y=$("#my").value.trim();
@@ -199,7 +242,7 @@ async function addMat(){const j=$("#mj").value.trim(),p=$("#mp").value.trim(),y=
  if(error)return $("#er").textContent="Gagal: "+error.message;await loadAll()}
 async function delMat(id){await sb.from("materi").delete().eq("id",id);await loadAll()}
 function csv(){const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
- const t=["Tanggal,Dai,Kegiatan,Mulai,Selesai,Durasi(menit),Jamaah,Tempat,Materi,Bagian,Catatan",...(window._r||[]).map(x=>[x.tgl,x.daiNama,x.jenis,x.mulai,x.selesai,x.durasi,x.jamaah,x.tempat,x.materi,x.bagian,x.catatan].map(q).join(","))].join("\n");
+ const t=["Tanggal,Dai,Kegiatan,Mulai,Selesai,Durasi(menit),Jamaah,Tempat,KM,Materi,Bagian,Catatan",...(window._r||[]).map(x=>[x.tgl,x.daiNama,x.jenis,x.mulai,x.selesai,x.durasi,x.jamaah,x.tempat,x.km,x.materi,x.bagian,x.catatan].map(q).join(","))].join("\n");
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv"}));a.download="dai-arrisalah.csv";a.click()}
 init();
 </script></body></html>
