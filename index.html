@@ -37,10 +37,10 @@ a{color:var(--g)}
 .card{box-shadow:0 2px 12px rgba(31,122,61,.08)}
 .hero{position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(31,122,61,.28)}.hero::after{content:"☪";position:absolute;right:-4px;top:-20px;font-size:120px;opacity:.14}
 .ring{width:112px;height:112px;border-radius:50%;background:conic-gradient(var(--g2) calc(var(--p)*1%),var(--gl) 0);display:grid;place-items:center;flex:none}.ring b{width:84px;height:84px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:20px;color:var(--g)}
-.nav button.on span{background:var(--gl);border-radius:14px}.nav{box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+.nav button.on::before{content:"";position:absolute;top:-7px;left:32%;right:32%;height:3px;border-radius:0 0 4px 4px;background:var(--g)}.nav{box-shadow:0 -4px 16px rgba(0,0,0,.06)}
 .p{box-shadow:0 4px 12px rgba(31,122,61,.3)}h3{color:var(--g)}
 .nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--ln);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
-.nav button{flex:1;background:none;border:0;color:var(--mu);font:inherit;font-size:12px;padding:4px}.nav button span{display:block;font-size:20px}.nav button.on{color:var(--g);font-weight:700}
+.nav button{flex:1;background:none;border:0;color:var(--mu);font:inherit;font-size:12px;padding:4px}.nav button{position:relative}.nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 3px}.nav button.on{color:var(--g);font-weight:700}
 .login{text-align:center}.login img{width:90px;margin:8px auto}
 </style></head><body>
 <header><img src="logo.png" alt="Logo"><b>Dai Arrisalah</b><span id="who"></span></header>
@@ -51,7 +51,7 @@ a{color:var(--g)}
 const KEG=[["Khutbah Jum'at",2,2.5],["Muhadoroh Ammah",8,1.25],["Taklim Mujtama'",26,2],["Taklim Syabab",26,1.5],["Taklim Atfhal",26,1.5],["Dakwah Abra Jawwal",26,.5],["Ziyaroh",8,1],["Dakwah Ammah",8,2],["Manhaj Ilmy",26,1]];
 const N=KEG.map(k=>k[0]),TG=Object.fromEntries(KEG.map(k=>[k[0],k[1]*k[2]])),TOT=208;
 const HM=["Muharram","Safar","Rabiul Awal","Rabiul Akhir","Jumadil Awal","Jumadil Akhir","Rajab","Syaban","Ramadhan","Syawal","Dzulqa'dah","Dzulhijjah"],HR=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-let PM="",FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
+let RD="",PM="",FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
 const $=s=>document.querySelector(s),A=$("#app");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const hash=async t=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dai:"+t)))].map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -73,7 +73,7 @@ async function loadAll(){
  const[u,r,m,p]=await Promise.all([sb.from("profiles").select("*"),sb.from("reports").select("*").gte("tgl",y).order("tgl",{ascending:false}).limit(5000),sb.from("materi").select("*").order("judul"),sb.from("presensi").select("*").gte("tgl",y)]);
  S.users=u.data||[];S.reports=(r.data||[]).map(toR);S.materi=m.data||[];
  S.presensi=(p.data||[]).map(x=>({id:x.dai+"_"+x.tgl,dai:x.dai,tgl:x.tgl,status:x.status}));
- S.log=S.reports.filter(x=>x.jenis==="Manhaj Ilmy").map(x=>({dai:x.dai,daiNama:x.daiNama,materi:x.materi,bagian:x.bagian,tgl:x.tgl,menit:x.durasi}));
+ S.log=S.reports.filter(x=>x.jenis==="Manhaj Ilmy").map(x=>({id:x.id,dai:x.dai,daiNama:x.daiNama,materi:x.materi,bagian:x.bagian,tgl:x.tgl,menit:x.durasi}));
  render();
 }
 const U=()=>S.users.find(u=>u.id===me.id)||{};
@@ -91,7 +91,7 @@ function render(){
  if(!me){$("#nv").innerHTML="";return loginView()}
  const dai=me.role==="dai",L=dai?[["ber","🏠","Beranda"],["riw","🕘","Riwayat"],["lap","✍️","Laporan"],["mi","📖","Manhaj Ilmy"]]:[["rek","📊","Ringkasan"],["pkn","📅","Pekanan"],["pd","👤","Per Dai"],["dai","👥","Kelola"],["mat","📖","Manhaj"]];
  if(!L.some(l=>l[0]===tab))tab=L[0][0];
- $("#nv").innerHTML=`<div class="nav">${L.map(l=>`<button class="${tab===l[0]?"on":""}" onclick="tab='${l[0]}';if(tab!=='lap')EID='';render();scrollTo(0,0)"><span>${l[1]}</span>${l[2]}</button>`).join("")}</div>`;
+ $("#nv").innerHTML=`<div class="nav">${L.map(l=>`<button class="${tab===l[0]?"on":""}" onclick="tab='${l[0]}';if(tab!=='lap')EID='';render();scrollTo(0,0)">${IC[l[0]]}${l[2]}</button>`).join("")}</div>`;
  dai?daiView():koorView();
 }
 async function logout(){try{await sb.auth.signOut()}catch(e){}me=null;S={users:[],reports:[],materi:[],log:[],presensi:[]};render()}
@@ -177,9 +177,9 @@ function koorView(){
   <div class="card"><div class="stats"><div><b>${r.length}</b>Kegiatan</div><div><b>${jm}</b>Jamaah</div><div><b>${fd(du)}</b>Durasi</div></div></div>
   <div class="card"><h3>Capaian per Dai (target ${TOT} jam)</h3>${dais.length?dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<div class="item"><div style="display:flex;justify-content:space-between"><span style="display:flex;gap:8px;align-items:center">${avatar(d,28)}${esc(d.name)}</span><span class="mu">${fj(t)} j · ${Math.round(t/TOT*100)}%</span></div>${bar(t,TOT)}</div>`}).join(""):'<p class="mu">Belum ada dai.</p>'}</div>
   <div class="card"><h3>Rekap per Dai</h3><div class="tw"><table><tr><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>KM</th><th>Tempat</th></tr>${dais.map(d=>{const q=inP.filter(x=>x.dai===d.id),s=wsum(q),tp=[...new Set(q.map(x=>x.tempat).filter(p=>p&&p!=="-"))];return `<tr><td>${esc(d.name)}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${fj(s.km)}</td><td style="white-space:normal;min-width:160px">${tp.map(p=>esc(p)).join(", ")||"–"}</td></tr>`}).join("")}</table></div></div>
-  <div class="card"><h3>Rekap per Jenis Kegiatan</h3><div class="tw"><table><tr><th></th><th>Kegiatan</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const q=inP.filter(x=>x.jenis===n);return `<tr><td>${n}</td><td>${q.length}</td><td>${q.reduce((s,x)=>s+x.jamaah,0)}</td><td>${fj(q.reduce((s,x)=>s+(x.durasi||0),0)/60)}</td></tr>`}).join("")}</table></div></div>
+  <div class="card">${rekapJenis(inP,dais)}</div>
   <div class="card"><h3>Laporan Masuk</h3><div class="row"><select onchange="F.dai=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${F.dai===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select><select onchange="F.jenis=this.value;render()"><option value="">Semua kegiatan</option>${N.map(k=>`<option ${F.jenis===k?"selected":""}>${k}</option>`).join("")}</select></div>
-  <button class="s" style="margin:10px 0" onclick="csv()">⬇ Unduh CSV</button>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th><th>KM</th><th>Foto</th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td><td>${x.jenis==="Manhaj Ilmy"?"–":fj(x.km)}</td><td>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
+  <button class="s" style="margin:10px 0" onclick="csv()">⬇ Unduh CSV</button>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th><th>KM</th><th>Foto</th><th></th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td><td>${x.jenis==="Manhaj Ilmy"?"–":fj(x.km)}</td><td>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}</td><td><button class="s" onclick="delLap('${esc(x.id)}')">Hapus</button></td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
   window._r=r}
  if(tab==="pkn")h=pknView();if(tab==="pd")h=pdView();
  if(tab==="dai"){const d=S.users.filter(u=>u.role==="dai");
@@ -188,7 +188,7 @@ function koorView(){
  if(tab==="mat"){
   h=`<div class="card"><h3>Tambah Materi</h3><label>Judul materi / kitab</label><input id="mj"><label>Link PDF kitab</label><input id="mp" placeholder="https://…"><label>Link playlist YouTube</label><input id="my" placeholder="https://youtube.com/playlist?list=…"><div class="err" id="er"></div><button class="p" onclick="addMat()">Simpan Materi</button></div>
   <div class="card"><h3>Daftar Materi</h3>${S.materi.map(x=>`<div class="item">${esc(x.judul)} <button class="s" onclick="delMat('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada.</p>'}</div>
-  <div class="card"><h3>Absensi Manhaj Ilmy Dai</h3>${S.log.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Materi</th><th>Bagian</th><th>Lama</th></tr>${[...S.log].sort((a,b)=>b.tgl.localeCompare(a.tgl)).map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.materi)}</td><td>ke-${x.bagian||"-"}</td><td>${x.menit} mnt</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada.</p>'}</div>`}
+  <div class="card"><h3>Absensi Manhaj Ilmy Dai</h3>${S.log.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Materi</th><th>Bagian</th><th>Lama</th><th></th></tr>${[...S.log].sort((a,b)=>b.tgl.localeCompare(a.tgl)).map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.materi)}</td><td>ke-${x.bagian||"-"}</td><td>${x.menit} mnt</td><td><button class="s" onclick="delLap('${esc(x.id)}')">Hapus</button></td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada.</p>'}</div>`}
  A.innerHTML=h}
 const avatar=(u,s)=>u&&u.foto?`<img class="av" style="width:${s}px;height:${s}px" src="${esc(u.foto)}" alt="">`:`<span class="av" style="width:${s}px;height:${s}px;font-size:${s/2.3}px">${esc(((u&&u.name)||"?").trim().charAt(0).toUpperCase())}</span>`;
 async function compress(f,max,q){const b=await createImageBitmap(f),k=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",q))}
@@ -215,6 +215,14 @@ const mWeeks=i=>[0,1,2,3].map(j=>({n:j+1,start:iso(addD(D(ANCHOR),i*28+7*j)),end
 function monthCtx(){const cur=mIdx(today()),ms=new Set([cur]);S.reports.forEach(x=>ms.add(mIdx(x.tgl)));
  const keys=[...ms].sort((a,b)=>b-a);if(PM===""||!ms.has(+PM))PM=String(cur);const W=mWeeks(+PM),a=W[0].start,b=W[3].end;
  return{M:{label:mLabel(+PM)},W,inM:S.reports.filter(x=>x.tgl>=a&&x.tgl<=b),sel:`<div class="card"><label style="margin-top:0">Bulan Hijriah</label><select onchange="PM=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${+PM===k?"selected":""}>${mLabel(k)}</option>`).join("")}</select><div class="mu" style="margin-top:6px">Data: ${fmtD(a)} – ${fmtD(b)} · 4 pekan, tiap pekan 7 hari (Rabu–Selasa)</div></div>`}}
+const ic=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`,BOOK='<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>';
+const IC={ber:ic('<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'),riw:ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),lap:ic('<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4"/><path d="M8 13h8M8 17h5"/>'),mi:ic(BOOK),mat:ic(BOOK),
+ rek:ic('<path d="M3 20h18"/><path d="M6 20v-8M12 20V5M18 20v-5"/>'),pkn:ic('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>'),pd:ic('<circle cx="12" cy="8" r="4"/><path d="M4.5 20c.8-3.6 4-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/>'),dai:ic('<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.6-3.2 3.4-5 6.5-5s5.9 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.4.2 4.2 1.7 4.7 4.5"/>')};
+function rekapJenis(inP,dais){
+ const rq=RD?inP.filter(x=>x.dai===RD):inP,T=wsum(rq),u=dais.find(d=>d.id===RD);
+ return `<h3>Rekap per Jenis Kegiatan</h3><select onchange="RD=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${RD===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select>
+ ${u?`<div style="display:flex;gap:10px;align-items:center;margin-top:10px">${avatar(u,40)}<b>${esc(u.name)}</b></div>`:""}
+ <div class="tw" style="margin-top:10px"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jamaah</th><th>Jam</th><th>KM</th><th>Tempat</th></tr>${N.map(n=>{const q=rq.filter(x=>x.jenis===n),w=wsum(q),tp=[...new Set(q.map(x=>x.tempat).filter(p=>p&&p!=="-"))];return `<tr><td>${n}</td><td>${w.n}</td><td>${w.j}</td><td>${fj(w.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(w.km)}</td><td style="white-space:normal;min-width:160px">${tp.map(p=>esc(p)).join(", ")||"–"}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${T.j}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td><td></td></tr></table></div>`}
 const MTL={n:"Kegiatan",j:"Jamaah",h:"Jam"};
 function pknView(){
  const{W,inM:inP,sel}=monthCtx(),t=today();
@@ -234,6 +242,14 @@ function pdView(){
  <div class="card prof">${avatar(d,84)}<div style="flex:1;min-width:0"><h3 style="margin:0">${esc(d.name)}</h3><div class="mu">@${esc(d.username)}${d.libur!=null?" · libur "+HR[d.libur]:""}</div><div class="big">${fj(T.h)} <span class="mu">jam · ${fj(T.km)} km</span></div></div></div>
  <div class="card"><h3>Rekap per Kegiatan</h3><div class="mu" style="margin-bottom:8px">${M.label}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jam</th><th>KM</th></tr>${N.map(n=>{const s=wsum(r.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(s.km)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td></tr></table></div></div>
  <div class="card"><h3>Jam per Pekan</h3>${svgBars(W.map(x=>"Pkn "+x.n),W.map(x=>wsum(inW(r,x)).h),-1)}</div>`}
+async function delLap(id){
+ const x=S.reports.find(r=>r.id===id);if(!x)return;
+ if(!confirm("Hapus laporan ini?\n"+x.daiNama+" · "+x.jenis+" · "+x.tgl+"\n\nLaporan akan hilang dari semua rekap dan tidak bisa dikembalikan."))return;
+ const{error,count}=await sb.from("reports").delete({count:"exact"}).eq("id",id);
+ if(error)return alert("Gagal menghapus: "+error.message);
+ if(!count)return alert("Laporan tidak terhapus. Pastikan update-v3.sql sudah dijalankan di Supabase.");
+ if(x.foto){const m=x.foto.split("/object/public/foto/")[1];if(m)try{await sb.storage.from("foto").remove([decodeURIComponent(m.split("?")[0])])}catch(e){}}
+ await loadAll()}
 async function addDai(){
  const nm=$("#nm").value.trim(),un=$("#un").value.trim().toLowerCase(),pw=$("#pw").value;
  if(!nm||!/^[a-z0-9._-]+$/.test(un)||pw.length<6)return $("#er").textContent="Isi nama, username (huruf kecil/angka), dan sandi min. 6 karakter.";
