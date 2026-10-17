@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dai Arrisalah</title><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#1f7a3d"><meta name="color-scheme" content="light dark">
+<style>
+:root{--g:#1f7a3d;--g2:#35a35a;--gl:#e6f4ea;--bg:#f3f9f4;--card:#fff;--tx:#17301f;--mu:#667a6c;--ln:#d3e5d8;--er:#c0392b;--wn:#fff4d6;--wt:#7a5200;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--g:#3aa05e;--gl:#1d3526;--bg:#0f1a13;--card:#17251c;--tx:#e6f2ea;--mu:#8fa597;--ln:#27402f;--wn:#3a3010;--wt:#f0cf7a}}
+:root[data-theme="dark"]{--g:#3aa05e;--gl:#1d3526;--bg:#0f1a13;--card:#17251c;--tx:#e6f2ea;--mu:#8fa597;--ln:#27402f;--wn:#3a3010;--wt:#f0cf7a}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,sans-serif;padding-bottom:90px}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(135deg,#1f7a3d,#35a35a);color:#fff}
+header img{width:38px;height:42px;object-fit:contain;background:#fff;border-radius:10px;padding:2px}
+header b{font-size:17px;flex:1}header a{color:#fff;font-size:13px}
+main{max-width:760px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:12px}
+.hero{background:linear-gradient(135deg,#1f7a3d,#35a35a);color:#fff;border:0}.hero h2{margin:0 0 4px;font-size:20px}.hero p{margin:2px 0;opacity:.92}
+.pres{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pres button{padding:10px 2px;font-size:13px!important;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font:inherit}
+.pres button.on{background:var(--g);color:#fff;border-color:var(--g);font-weight:600}
+.bar{height:9px;background:var(--gl);border-radius:9px;overflow:hidden;margin:5px 0 9px}.bar i{display:block;height:100%;background:var(--g2);border-radius:9px}
+.big{font-size:26px;font-weight:700;color:var(--g)}
+.warn{background:var(--wn);color:var(--wt);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:14px}.ok{background:var(--gl);color:var(--g);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:14px}
+label{display:block;font-size:13px;color:var(--mu);margin:10px 0 3px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.p{background:var(--g);color:#fff;border:0;border-radius:12px;padding:12px 18px;margin-top:14px;font:inherit;width:100%}
+.s{background:none;border:1px solid var(--ln);color:var(--tx);border-radius:10px;padding:5px 10px;font:inherit;font-size:13px}
+.dur{margin-top:10px;padding:9px;border-radius:10px;background:var(--gl);color:var(--g);font-weight:600}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:start;padding:6px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
+.err{color:var(--er);font-size:13px;margin-top:8px}.mu{color:var(--mu);font-size:13px}h3{margin:0 0 8px}
+.item{border-bottom:1px solid var(--ln);padding:9px 0}.item:last-child{border:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}.stats div{background:var(--gl);border-radius:12px;padding:10px}.stats b{font-size:21px;display:block;color:var(--g)}
+a{color:var(--g)}
+.lg{background:rgba(255,255,255,.2);color:#fff;border:0;border-radius:20px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.xb{float:inline-end;margin:0 8px 6px;padding:4px 10px;font-size:12px}.card::after{content:"";display:table;clear:both}
+table[hidden]{display:none}
+.av{border-radius:50%;object-fit:cover;background:var(--gl);color:var(--g);display:inline-grid;place-items:center;font-weight:700;flex:none}
+.th{width:40px;height:40px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-inline-start:6px}.prev{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px}
+.fbtn{display:inline-block;margin:0;text-align:center;color:var(--tx);font-size:14px;cursor:pointer;padding:9px 10px}
+.pills{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.pills button{white-space:nowrap;border:1px solid var(--ln);background:var(--bg);color:var(--tx);border-radius:20px;padding:6px 13px;font:inherit;font-size:13px}.pills button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.prof{display:flex;gap:14px;align-items:center}
+.card{box-shadow:0 2px 12px rgba(31,122,61,.08)}
+.hero{position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(31,122,61,.28)}.hero::after{content:"☪";position:absolute;inset-inline-end:-4px;top:-20px;font-size:120px;opacity:.14}
+.ring{width:112px;height:112px;border-radius:50%;background:conic-gradient(var(--g2) calc(var(--p)*1%),var(--gl) 0);display:grid;place-items:center;flex:none}.ring b{width:84px;height:84px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:20px;color:var(--g)}
+.nav button.on::before{content:"";position:absolute;top:-7px;left:32%;right:32%;height:3px;border-radius:0 0 4px 4px;background:var(--g)}.nav{box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+.p{box-shadow:0 4px 12px rgba(31,122,61,.3)}h3{color:var(--g)}
+.nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--ln);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.nav button{flex:1;background:none;border:0;color:var(--mu);font:inherit;font-size:12px;padding:4px}.nav button{position:relative}.nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 3px}.nav button.on{color:var(--g);font-weight:700}
+.login{text-align:center}.login img{width:90px;margin:8px auto}
+</style></head><body>
+<header><img src="logo.png" alt="Logo"><b translate="no">Dai Arrisalah</b><button class="lg" id="lg" onclick="toggleLang()"></button><span id="who"></span></header>
+<main id="app"><p class="mu">Memuat…</p></main><div id="nv"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+const KEG=[["Khutbah Jum'at",2,2.5],["Muhadoroh Ammah",8,1.25],["Taklim Mujtama'",26,2],["Taklim Syabab",26,1.5],["Taklim Atfhal",26,1.5],["Dakwah Abra Jawwal",26,.5],["Ziyaroh",8,1],["Dakwah Ammah",8,2],["Manhaj Ilmy",26,1]];
+const N=KEG.map(k=>k[0]),TG=Object.fromEntries(KEG.map(k=>[k[0],k[1]*k[2]])),TOT=208;
+const HM=["Muharram","Safar","Rabiul Awal","Rabiul Akhir","Jumadil Awal","Jumadil Akhir","Rajab","Syaban","Ramadhan","Syawal","Dzulqa'dah","Dzulhijjah"],HR=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+let LANG=(()=>{try{return localStorage.getItem("lang")||"id"}catch(e){return"id"}})(),RD="",PM="",FOTO=null,WK=0,MT="n",PD="",sb=null,S={users:[],reports:[],materi:[],log:[],presensi:[]},me=null,tab="",EID="",PL="",PS="",F={dai:"",jenis:""};
+const $=s=>document.querySelector(s),A=$("#app");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hash=async t=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dai:"+t)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const today=()=>iso(new Date()),D=s=>new Date(s+"T12:00:00"),addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const hf=new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{day:"numeric",month:"numeric",year:"numeric"});
+function hij(d){const p={};hf.formatToParts(d).forEach(x=>p[x.type]=x.value);return{d:+p.day,m:+p.month,y:parseInt(p.year||p.relatedYear)}}
+const PC={};
+function period(s){if(PC[s])return PC[s];let d=D(s);for(let i=0;i<32;i++){const h=hij(d);if(h.d===16){let e=addD(d,1);for(let j=0;j<32;j++){if(hij(e).d===15)break;e=addD(e,1)}return PC[s]={start:iso(d),end:iso(e),key:h.y*12+h.m,label:`16 ${HM[h.m-1]} – 15 ${HM[h.m%12]} ${h.m===12?h.y+1:h.y}H`}}d=addD(d,-1)}}
+const dif=(a,b)=>Math.round((D(a)-D(b))/864e5);
+const dur=(a,b)=>{if(!a||!b)return null;let m=(+b.slice(0,2))*60+ +b.slice(3)-(+a.slice(0,2))*60- +a.slice(3);if(m<0)m+=1440;return m};
+const fd=m=>m==null?"-":Math.floor(m/60)+(LANG==="ar"?" س ":" j ")+m%60+(LANG==="ar"?" د":" m"),fj=h=>(Math.round(h*10)/10).toString().replace(".",",");
+const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const EM=u=>u.trim().toLowerCase()+"@dai-arrisalah.app";
+const toR=r=>({km:+r.km||0,foto:r.foto,id:r.id,dai:r.dai,daiNama:r.dai_nama,jenis:r.jenis,tgl:r.tgl,mulai:r.mulai,selesai:r.selesai,durasi:r.durasi,jamaah:r.jamaah,tempat:r.tempat,materi:r.materi,bagian:r.bagian,catatan:r.catatan,createdAt:Date.parse(r.created_at)});
+async function loadAll(){
+ if(!sb||!me)return;
+ const y=iso(addD(new Date(),-400));
+ const[u,r,m,p]=await Promise.all([sb.from("profiles").select("*"),sb.from("reports").select("*").gte("tgl",y).order("tgl",{ascending:false}).limit(5000),sb.from("materi").select("*").order("judul"),sb.from("presensi").select("*").gte("tgl",y)]);
+ S.users=u.data||[];S.reports=(r.data||[]).map(toR);S.materi=m.data||[];
+ S.presensi=(p.data||[]).map(x=>({id:x.dai+"_"+x.tgl,dai:x.dai,tgl:x.tgl,status:x.status}));
+ S.log=S.reports.filter(x=>x.jenis==="Manhaj Ilmy").map(x=>({id:x.id,dai:x.dai,daiNama:x.daiNama,materi:x.materi,bagian:x.bagian,tgl:x.tgl,menit:x.durasi}));
+ render();
+}
+const U=()=>S.users.find(u=>u.id===me.id)||{};
+function stat(id,per){const g={};N.forEach(n=>g[n]=0);let t=0;S.reports.filter(x=>x.dai===id&&x.tgl>=per.start&&x.tgl<=per.end).forEach(x=>{const h=(x.durasi||0)/60;g[x.jenis]=(g[x.jenis]||0)+h;t+=h});return{g,t}}
+const bar=(v,t)=>`<div class="bar"><i style="width:${Math.min(100,v/t*100)}%"></i></div>`;
+async function init(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==="ar"?"rtl":"ltr";startTr();const lb=$("#lg");if(lb)lb.textContent=LANG==="ar"?"Indonesia":"العربية";
+
+ if(!window.supabase||!window.SUPABASE_URL||SUPABASE_URL.includes("ISI_")){A.innerHTML='<div class="card"><h3>Belum dikonfigurasi</h3><p>Isi SUPABASE_URL dan SUPABASE_ANON_KEY di file config.js.</p></div>';return}
+ sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+ const{data:{session}}=await sb.auth.getSession();
+ if(session)await enter(session.user.id);else render();
+ setInterval(()=>{if(me&&!document.hidden&&["ber","riw","rek"].includes(tab))loadAll()},60000);
+}
+function render(){render0();const b=$("#lg");if(b)b.textContent=LANG==="ar"?"Indonesia":"العربية";document.documentElement.lang=LANG;document.documentElement.dir=LANG==="ar"?"rtl":"ltr"}
+function render0(){
+ $("#who").innerHTML=me?`<a href="#" onclick="logout();return false">Keluar</a>`:"";
+ if(!me){$("#nv").innerHTML="";return loginView()}
+ const dai=me.role==="dai",L=dai?[["ber","🏠","Beranda"],["riw","🕘","Riwayat"],["lap","✍️","Laporan"],["mi","📖","Manhaj Ilmy"]]:[["rek","📊","Ringkasan"],["pkn","📅","Pekanan"],["pd","👤","Per Dai"],["dai","👥","Kelola"],["mat","📖","Manhaj"]];
+ if(!L.some(l=>l[0]===tab))tab=L[0][0];
+ $("#nv").innerHTML=`<div class="nav">${L.map(l=>`<button class="${tab===l[0]?"on":""}" onclick="tab='${l[0]}';if(tab!=='lap')EID='';render();scrollTo(0,0)">${IC[l[0]]}${l[2]}</button>`).join("")}</div>`;
+ dai?daiView():koorView();
+}
+async function logout(){try{await sb.auth.signOut()}catch(e){}me=null;S={users:[],reports:[],materi:[],log:[],presensi:[]};render()}
+function loginView(){
+ A.innerHTML=`<div class="card login"><img src="logo.png" alt=""><h3>Ahlan Wa Sahlan</h3><div style="text-align:start"><label>Username</label><input id="un" autocapitalize="none" autocomplete="username"><label>Kata sandi</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div><div class="err" id="er"></div><button class="p" onclick="login()">Masuk</button></div>`}
+async function login(){
+ const un=$("#un").value,pw=$("#pw").value;if(!un||!pw)return $("#er").textContent="Isi username dan sandi.";
+ $("#er").textContent="Memeriksa…";
+ const{data,error}=await sb.auth.signInWithPassword({email:EM(un),password:pw});
+ if(error)return $("#er").textContent="Username atau sandi salah.";
+ await enter(data.user.id)}
+async function enter(id){
+ const{data:p}=await sb.from("profiles").select("*").eq("id",id).maybeSingle();
+ if(!p){await sb.auth.signOut();me=null;render();const e=$("#er");if(e)e.textContent="Akun ini belum terdaftar. Hubungi koordinator.";return}
+ me={id:p.id,name:p.name,role:p.role,username:p.username};tab="";await loadAll()}
+
+/* ===== DAI ===== */
+function daiView(){if(tab!=="lap")FOTO=null;A.innerHTML=({ber,riw,lap,mi:miDai})[tab]()}
+function ber(){
+ const t=today(),per=period(t),st=stat(me.id,per),u=U(),h=hij(new Date()),di=dif(t,per.start)+1,dn=dif(per.end,per.start)+1;
+ const tdy=S.reports.filter(x=>x.dai===me.id&&x.tgl===t).reduce((s,x)=>s+(x.durasi||0)/60,0);
+ const pr=S.presensi.find(x=>x.id===me.id+"_"+t),libur=u.libur!=null&&u.libur!==""&&+u.libur===new Date().getDay();
+ let w="";
+ if(di>=20&&st.t<TOT)w+=`<div class="warn">⚠️ Hari ke-${di} dari ${dn} periode ini. Jam kerja baru ${fj(st.t)} dari ${TOT}; kurang ${fj(TOT-st.t)} jam.</div>`;
+ if(libur)w+=`<div class="ok">Hari ini hari libur Anda.</div>`;else if(tdy<8)w+=`<div class="warn">⚠️ Jam kerja hari ini ${fj(tdy)} dari 8 jam. Belum tercapai.</div>`;
+ return `<div class="card hero" style="display:flex;gap:12px;align-items:center">${avatar(u,60)}<div><h2>Ahlan Wa Sahlan, Ustadz ${esc(me.name)}</h2><p>📅 ${h.d} ${HM[h.m-1]} ${h.y}H</p><p style="font-size:13px">${new Date().toLocaleDateString(LOC(),{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p></div></div>${w}
+ <div class="card"><h3>Presensi hari ini</h3><div class="pres">${["Hadir","Izin","Sakit","Absen","Libur"].map(s=>`<button class="${pr?.status===s?"on":""}" onclick="setPres('${s}')">${s}</button>`).join("")}</div>
+ <label>Hari libur mingguan</label><select onchange="setLibur(this.value)"><option value="">Belum dipilih</option>${HR.map((n,i)=>`<option value="${i}" ${u.libur!=null&&u.libur!==""&&+u.libur===i?"selected":""}>${n}</option>`).join("")}</select></div>
+ <div class="card"><h3>Target hari ini</h3><div class="big">${fj(tdy)} <span class="mu">/ 8 jam</span></div>${bar(tdy,8)}</div>
+ <div class="card"><h3>Target periode</h3><div class="mu">${per.label} · hari ke-${di}</div><div style="display:flex;gap:14px;align-items:center;margin:8px 0 12px"><div class="ring" style="--p:${Math.min(100,st.t/TOT*100)}"><b>${Math.round(st.t/TOT*100)}%</b></div><div><div class="big">${fj(st.t)} <span class="mu">/ ${TOT} jam</span></div><div class="mu">Sisa ${fj(Math.max(0,TOT-st.t))} jam</div><div class="mu">Jarak tempuh: ${fj(S.reports.filter(x=>x.dai===me.id&&x.tgl>=per.start&&x.tgl<=per.end).reduce((a,x)=>a+x.km,0))} km</div></div></div>
+ ${KEG.map(k=>`<div class="item"><div style="display:flex;justify-content:space-between"><span>${k[0]}</span><span class="mu">${fj(st.g[k[0]])} / ${fj(TG[k[0]])} j</span></div>${bar(st.g[k[0]],TG[k[0]])}</div>`).join("")}</div>`}
+async function setPres(s){await sb.from("presensi").upsert({dai:me.id,tgl:today(),status:s});await loadAll()}
+async function setLibur(v){await sb.from("profiles").update({libur:v===""?null:+v}).eq("id",me.id);await loadAll()}
+function riw(){const r=S.reports.filter(x=>x.dai===me.id).sort((a,b)=>(b.tgl+b.mulai).localeCompare(a.tgl+a.mulai));
+ return `<div class="card"><h3>Riwayat Laporan</h3>${r.length?r.map(x=>`<div class="item"><b>${esc(x.jenis)}</b> <span class="mu">${esc(x.tgl)} · ${esc(x.mulai)}–${esc(x.selesai)} · ${fd(x.durasi)}</span><br><span class="mu">${x.jenis==="Manhaj Ilmy"?"Materi: "+esc(x.materi)+" · bagian ke-"+x.bagian:x.jamaah+" jamaah · "+esc(x.tempat)+" · "+fj(x.km)+" km"}</span>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}${x.createdAt&&Date.now()-x.createdAt<864e5?` <button class="s" onclick="EID='${x.id}';tab='lap';render()">Ubah</button>`:""}</div>`).join(""):'<p class="mu">Belum ada laporan.</p>'}<p class="mu">Laporan bisa diubah dalam 24 jam setelah dikirim.</p></div>`}
+function lap(){
+ const r=S.reports.find(x=>x.id===EID)||{},mi=r.jenis==="Manhaj Ilmy";
+ return `<div class="card"><h3>${EID?"Ubah Laporan":"Laporan Kegiatan"}</h3>
+ <label>Jenis kegiatan</label><select id="jk" onchange="togMI()">${N.map(k=>`<option ${r.jenis===k?"selected":""}>${k}</option>`).join("")}</select>
+ <label>Tanggal</label><input id="tg" type="date" value="${r.tgl||today()}">
+ <div class="row"><div><label>Jam mulai</label><input id="jm" type="time" value="${r.mulai||""}" oninput="calc()"></div><div><label>Jam selesai</label><input id="js" type="time" value="${r.selesai||""}" oninput="calc()"></div></div>
+ <div class="dur" id="du">Durasi: ${fd(r.durasi)}</div>
+ <div id="mi" style="display:${mi?"block":"none"}"><label>Materi Manhaj Ilmy yang dibaca</label><select id="mm">${S.materi.map(x=>`<option ${r.materi===x.judul?"selected":""}>${esc(x.judul)}</option>`).join("")}</select><label>Bagian / pelajaran ke-berapa yang dibaca</label><input id="bg" type="number" min="1" inputmode="numeric" value="${r.bagian||""}"></div>
+ <div id="jt" style="display:${mi?"none":"block"}"><label>Jumlah jamaah</label><input id="jj" type="number" min="0" inputmode="numeric" value="${r.jamaah??""}"><label>Tempat</label><input id="tp" value="${esc(r.tempat||"")}" placeholder="Nama masjid / lokasi"><label>Jarak tempuh (KM)</label><input id="km" type="number" min="0" step="0.1" inputmode="decimal" value="${r.km??""}" placeholder="0"></div>
+ <label>Catatan (opsional)</label><textarea id="ct" rows="2">${esc(r.catatan||"")}</textarea>
+ <label>Foto kegiatan (opsional)</label><div class="row"><label class="s fbtn">📷 Kamera<input type="file" accept="image/*" capture="environment" hidden onchange="pickFoto(this)"></label><label class="s fbtn">🖼️ Galeri<input type="file" accept="image/*" hidden onchange="pickFoto(this)"></label></div><img id="fp" class="prev" src="${esc(r.foto||"")}" style="display:${r.foto?"block":"none"}" alt="">
+ <div class="err" id="er"></div><button class="p" onclick="simpanLap()">${EID?"Simpan Perubahan":"Kirim Laporan"}</button>${EID?`<button class="s" style="margin-top:8px;width:100%" onclick="EID='';render()">Batal</button>`:""}</div>`}
+function togMI(){const m=$("#jk").value==="Manhaj Ilmy";$("#mi").style.display=m?"block":"none";$("#jt").style.display=m?"none":"block"}
+function calc(){$("#du").textContent="Durasi: "+fd(dur($("#jm").value,$("#js").value))}
+async function simpanLap(){
+ const old=S.reports.find(x=>x.id===EID),j=$("#jk").value,m=j==="Manhaj Ilmy";
+ if(old&&!(old.createdAt&&Date.now()-old.createdAt<864e5))return $("#er").textContent="Batas 24 jam untuk mengubah sudah lewat.";
+ const o={dai:me.id,dai_nama:me.name,jenis:j,tgl:$("#tg").value,mulai:$("#jm").value,selesai:$("#js").value,catatan:$("#ct").value.trim()};
+ o.durasi=dur(o.mulai,o.selesai);
+ if(m){o.materi=$("#mm")?.value;o.bagian=+$("#bg").value;o.jamaah=0;o.tempat="-";o.km=0}else{o.materi=null;o.bagian=null;o.jamaah=+$("#jj").value;o.tempat=$("#tp").value.trim();o.km=+$("#km").value}
+ if(!o.tgl||o.durasi==null||(m?(!o.materi||!(o.bagian>0)):(!o.tempat||$("#jj").value===""||$("#km").value===""||!(o.km>=0)))) return $("#er").textContent=m?"Isi tanggal, jam, materi, dan bagian ke-berapa.":"Isi tanggal, jam, jumlah jamaah, tempat, dan jarak tempuh (KM).";
+ $("#er").textContent="Menyimpan…";
+ if(FOTO){const p=me.id+"/"+Date.now()+".jpg",up=await sb.storage.from("foto").upload(p,FOTO,{contentType:"image/jpeg"});if(up.error)return $("#er").textContent="Gagal unggah foto: "+up.error.message;o.foto=sb.storage.from("foto").getPublicUrl(p).data.publicUrl}
+ const{error}=EID?await sb.from("reports").update(o).eq("id",EID):await sb.from("reports").insert(o);
+ if(error)return $("#er").textContent="Gagal menyimpan: "+error.message;
+ EID="";tab="riw";await loadAll()}
+function player(x){const m=(x.yt||"").match(/[?&]list=([\w-]+)/);if(!m)return x.yt?`<a href="${esc(x.yt)}" target="_blank" rel="noopener">▶️ Buka video</a>`:"";const l=m[1];
+ return PL===x.id?`<div style="margin-top:8px"><div style="position:relative;padding-top:56.25%"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=${l}" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><button class="s" style="margin-top:6px" onclick="PL='';render()">Tutup video</button> <a href="https://www.youtube.com/playlist?list=${l}" target="_blank" rel="noopener" class="mu">Buka di YouTube</a></div>`:`<button class="s" onclick="PL='${x.id}';render()">▶️ Putar playlist di sini</button>`}
+function miDai(){
+ const per=period(today()),h=stat(me.id,per).g["Manhaj Ilmy"],mine=S.log.filter(x=>x.dai===me.id).sort((a,b)=>b.tgl.localeCompare(a.tgl)),t=today();
+ const td=mine.filter(x=>x.tgl===t).reduce((s,x)=>s+x.menit,0)/60;
+ return `<div class="card"><h3>Perkembangan Manhaj Ilmy</h3><div class="mu">Hari ini</div><div class="big">${fj(td)} <span class="mu">/ 1 jam</span></div>${bar(td,1)}<div class="mu">Periode ini</div><div class="big">${fj(h)} <span class="mu">/ ${TG["Manhaj Ilmy"]} jam</span></div>${bar(h,TG["Manhaj Ilmy"])}
+ <p class="mu">Absensi terisi otomatis dari laporan kegiatan "Manhaj Ilmy" di menu Laporan.</p>${mine[0]?`<div class="ok">Terakhir dibaca: ${esc(mine[0].materi)}, bagian ke-${mine[0].bagian||"-"}</div>`:""}</div>
+ <div class="card"><h3>Materi</h3>${S.materi.length?S.materi.map(x=>`<div class="item"><b>${esc(x.judul)}</b><br>${x.pdf?`<a href="${esc(x.pdf)}" target="_blank" rel="noopener">📘 Kitab (PDF)</a> `:""}${player(x)}</div>`).join(""):'<p class="mu">Koordinator belum menambahkan materi.</p>'}</div>
+ <div class="card"><h3>Absensi Saya</h3>${mine.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Materi</th><th>Bagian</th><th>Lama</th></tr>${mine.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.materi)}</td><td>ke-${x.bagian||"-"}</td><td>${x.menit} mnt</td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada.</p>'}</div>`}
+
+/* ===== KOORDINATOR ===== */
+function koorView(){
+ let h="";
+ if(tab==="rek"){
+  const cur=period(today()),ps={[cur.key]:cur};S.reports.forEach(x=>{const p=period(x.tgl);if(p)ps[p.key]=p});
+  const keys=Object.keys(ps).sort((a,b)=>b-a);if(!PS||!ps[PS])PS=String(cur.key);const P=ps[PS];
+  const inP=S.reports.filter(x=>x.tgl>=P.start&&x.tgl<=P.end),r=inP.filter(x=>(!F.dai||x.dai===F.dai)&&(!F.jenis||x.jenis===F.jenis)).sort((a,b)=>b.tgl.localeCompare(a.tgl));
+  const dais=S.users.filter(u=>u.role==="dai"),jm=r.reduce((s,x)=>s+x.jamaah,0),du=r.reduce((s,x)=>s+(x.durasi||0),0);
+  const pr=S.presensi.filter(x=>x.tgl===today()),cnt=s=>pr.filter(x=>x.status===s).length;
+  h=`<div class="card"><label>Periode (16–15 Hijriah)</label><select onchange="PS=this.value;render()">${keys.map(k=>`<option value="${k}" ${PS==k?"selected":""}>${ps[k].label}</option>`).join("")}</select></div>
+  <div class="card"><h3>Presensi hari ini</h3><div class="stats">${["Hadir","Izin","Sakit","Absen","Libur"].map(s=>`<div><b>${cnt(s)}</b>${s}</div>`).join("")}<div><b>${dais.length-pr.length}</b>Belum isi</div></div></div>
+  <div class="card"><div class="stats"><div><b>${r.length}</b>Kegiatan</div><div><b>${jm}</b>Jamaah</div><div><b>${fd(du)}</b>Durasi</div></div></div>
+  <div class="card">${xbtn("capaian-dai")}<h3>Capaian per Dai (target ${TOT} jam)</h3><table hidden><tr><th>Dai</th><th>Jam</th><th>Persen</th></tr>${dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<tr><td>${esc(d.name)}</td><td>${fj(t)}</td><td>${Math.round(t/TOT*100)}</td></tr>`}).join("")}</table>${dais.length?dais.map(d=>{const t=inP.filter(x=>x.dai===d.id).reduce((s,x)=>s+(x.durasi||0)/60,0);return `<div class="item"><div style="display:flex;justify-content:space-between"><span style="display:flex;gap:8px;align-items:center">${avatar(d,28)}${esc(d.name)}</span><span class="mu">${fj(t)} j · ${Math.round(t/TOT*100)}%</span></div>${bar(t,TOT)}</div>`}).join(""):'<p class="mu">Belum ada dai.</p>'}</div>
+  <div class="card">${xbtn("rekap-per-dai-periode")}<h3>Rekap per Dai</h3><div class="tw"><table><tr><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>KM</th><th>Tempat</th></tr>${dais.map(d=>{const q=inP.filter(x=>x.dai===d.id),s=wsum(q),tp=[...new Set(q.map(x=>x.tempat).filter(p=>p&&p!=="-"))];return `<tr><td>${esc(d.name)}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${fj(s.km)}</td><td style="white-space:normal;min-width:160px">${tp.map(p=>esc(p)).join(", ")||"–"}</td></tr>`}).join("")}</table></div></div>
+  <div class="card">${rekapJenis(inP,dais)}</div>
+  <div class="card">${xbtn("laporan-masuk")}<h3>Laporan Masuk</h3><div class="row"><select onchange="F.dai=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${F.dai===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select><select onchange="F.jenis=this.value;render()"><option value="">Semua kegiatan</option>${N.map(k=>`<option ${F.jenis===k?"selected":""}>${k}</option>`).join("")}</select></div>
+  <div style="height:10px"></div>${r.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Kegiatan</th><th>Jam</th><th>Durasi</th><th>Jamaah</th><th>Tempat</th><th>KM</th><th>Foto</th><th></th></tr>${r.map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.jenis)}</td><td>${esc(x.mulai)}–${esc(x.selesai)}</td><td>${fd(x.durasi)}</td><td>${x.jamaah}</td><td>${esc(x.tempat)}</td><td>${x.jenis==="Manhaj Ilmy"?"–":fj(x.km)}</td><td>${x.foto?`<a href="${esc(x.foto)}" target="_blank" rel="noopener"><img class="th" src="${esc(x.foto)}" alt=""></a>`:""}</td><td><button class="s" onclick="delLap('${esc(x.id)}')">Hapus</button></td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada data.</p>'}</div>`;
+  window._r=r}
+ if(tab==="pkn")h=pknView();if(tab==="pd")h=pdView();
+ if(tab==="dai"){const d=S.users.filter(u=>u.role==="dai");
+  h=`<div class="card"><h3>Tambah Akun Dai</h3><label>Nama dai</label><input id="nm"><label>Username</label><input id="un" autocapitalize="none"><label>Kata sandi awal</label><input id="pw"><label>Pas foto (opsional)</label><input id="pf" type="file" accept="image/*"><div class="err" id="er"></div><button class="p" onclick="addDai()">Buat Akun</button></div>
+  <div class="card"><h3>Daftar Dai (${d.length})</h3>${d.map(x=>`<div class="item" style="display:flex;gap:10px;align-items:center">${avatar(x,46)}<div style="flex:1;min-width:0"><b>${esc(x.name)}</b><div class="mu">@${esc(x.username)}${x.libur!=null?" · libur "+HR[x.libur]:""}</div></div><label class="s fbtn">📷 ${x.foto?"Ganti":"Foto"}<input type="file" accept="image/*" hidden onchange="setFotoDai('${esc(x.id)}',this)"></label><button class="s" onclick="delDai('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada dai.</p>'}</div>`}
+ if(tab==="mat"){
+  h=rekapManhaj()+`<div class="card"><h3>Tambah Materi</h3><label>Judul materi / kitab</label><input id="mj"><label>Link PDF kitab</label><input id="mp" placeholder="https://…"><label>Link playlist YouTube</label><input id="my" placeholder="https://youtube.com/playlist?list=…"><div class="err" id="er"></div><button class="p" onclick="addMat()">Simpan Materi</button></div>
+  <div class="card"><h3>Daftar Materi</h3>${S.materi.map(x=>`<div class="item">${esc(x.judul)} <button class="s" onclick="delMat('${esc(x.id)}')">Hapus</button></div>`).join("")||'<p class="mu">Belum ada.</p>'}</div>
+  <div class="card">${xbtn("absensi-manhaj")}<h3>Absensi Manhaj Ilmy Dai</h3>${S.log.length?`<div class="tw"><table><tr><th>Tanggal</th><th>Dai</th><th>Materi</th><th>Bagian</th><th>Lama</th><th></th></tr>${[...S.log].sort((a,b)=>b.tgl.localeCompare(a.tgl)).map(x=>`<tr><td>${esc(x.tgl)}</td><td>${esc(x.daiNama)}</td><td>${esc(x.materi)}</td><td>ke-${x.bagian||"-"}</td><td>${x.menit} mnt</td><td><button class="s" onclick="delLap('${esc(x.id)}')">Hapus</button></td></tr>`).join("")}</table></div>`:'<p class="mu">Belum ada.</p>'}</div>`}
+ A.innerHTML=h}
+const avatar=(u,s)=>u&&u.foto?`<img class="av" style="width:${s}px;height:${s}px" src="${esc(u.foto)}" alt="">`:`<span class="av" style="width:${s}px;height:${s}px;font-size:${s/2.3}px">${esc(((u&&u.name)||"?").trim().charAt(0).toUpperCase())}</span>`;
+async function compress(f,max,q){const b=await createImageBitmap(f),k=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",q))}
+async function pickFoto(inp){const f=inp.files[0];if(!f)return;try{FOTO=await compress(f,1200,.75);const p=$("#fp");p.src=URL.createObjectURL(FOTO);p.style.display="block"}catch(e){alert("Foto tidak bisa dibaca.")}}
+async function uploadProfil(id,f){try{const b=await compress(f,500,.8),p="profil/"+id+".jpg",up=await sb.storage.from("foto").upload(p,b,{contentType:"image/jpeg",upsert:true});if(up.error)return up.error.message;const url=sb.storage.from("foto").getPublicUrl(p).data.publicUrl+"?v="+Date.now(),r=await sb.from("profiles").update({foto:url}).eq("id",id);return r.error?r.error.message:null}catch(e){return"Foto tidak bisa dibaca."}}
+async function setFotoDai(id,inp){const f=inp.files[0];if(!f)return;const e=await uploadProfil(id,f);if(e)alert("Gagal: "+e);await loadAll()}
+/* Pekan: pekan 1 mulai di awal periode (tgl 16 Hijriah); pekan berikutnya mulai hari WS (3 = Rabu, pekan berakhir Selasa). Ubah WS bila perlu (0=Ahad ... 6=Sabtu). */
+const WS=3;
+function weeks(P){const w=[],e=D(P.end);let c=D(P.start);while(c<=e){let n=addD(c,1);while(n<=e&&n.getDay()!==WS)n=addD(n,1);const en=addD(n,-1)>e?e:addD(n,-1);w.push({n:w.length+1,start:iso(c),end:iso(en)});c=n}return w}
+const wsum=r=>({n:r.length,j:r.reduce((s,x)=>s+x.jamaah,0),h:r.reduce((s,x)=>s+(x.durasi||0),0)/60,km:r.reduce((s,x)=>s+x.km,0)});
+const inW=(r,w)=>r.filter(x=>x.tgl>=w.start&&x.tgl<=w.end);
+function fmtR(w){const g=s=>D(s).toLocaleDateString(LOC(),{day:"numeric",month:"short"}),h=s=>{const x=hij(D(s));return x.d+" "+HM[x.m-1]};return `${g(w.start)} – ${g(w.end)} · ${h(w.start)} – ${h(w.end)}`}
+function svgBars(lab,vals,hi){const W=320,H=160,t=18,b=22,m=Math.max(...vals,1),g=(W-20)/lab.length,bw=Math.min(44,g-8);
+ return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${vals.map((v,i)=>{const h=(H-t-b)*v/m,x=10+g*i+(g-bw)/2,y=H-b-h;return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(h,1)}" rx="5" style="fill:var(--g);opacity:${i===hi?1:.45}"/><text x="${x+bw/2}" y="${y-4}" text-anchor="middle" font-size="11" style="fill:var(--tx)">${fj(v)}</text><text x="${x+bw/2}" y="${H-6}" text-anchor="middle" font-size="11" style="fill:var(--mu)">${lab[i]}</text>`}).join("")}</svg>`}
+function perCtx(){const cur=period(today()),ps={[cur.key]:cur};S.reports.forEach(x=>{const p=period(x.tgl);if(p)ps[p.key]=p});const keys=Object.keys(ps).sort((a,b)=>b-a);if(!PS||!ps[PS])PS=String(cur.key);const P=ps[PS];
+ return{P,inP:S.reports.filter(x=>x.tgl>=P.start&&x.tgl<=P.end),sel:`<div class="card"><label style="margin-top:0">Periode (16–15 Hijriah)</label><select onchange="PS=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${PS==k?"selected":""}>${ps[k].label}</option>`).join("")}</select></div>`}}
+const fmtD=s=>D(s).toLocaleDateString(LOC(),{day:"numeric",month:"short"});
+/* Pekan selalu 7 hari berurutan (Rabu-Selasa) mulai ANCHOR; satu bulan = 4 pekan.
+   Sisa hari di akhir bulan otomatis masuk Pekan 1 bulan berikutnya (Pekan 1 tetap 7 hari). */
+const ANCHOR="2026-10-07",BASEKEY=1448*12+4;
+const mIdx=s=>Math.floor(Math.floor(dif(s,ANCHOR)/7)/4);
+const mLabel=i=>{const k=BASEKEY+i;return HM[((k%12)+12)%12]+" "+Math.floor(k/12)+"H"};
+const mWeeks=i=>[0,1,2,3].map(j=>({n:j+1,start:iso(addD(D(ANCHOR),i*28+7*j)),end:iso(addD(D(ANCHOR),i*28+7*j+6))}));
+function monthCtx(){const cur=mIdx(today()),ms=new Set([cur]);S.reports.forEach(x=>ms.add(mIdx(x.tgl)));
+ const keys=[...ms].sort((a,b)=>b-a);if(PM===""||!ms.has(+PM))PM=String(cur);const W=mWeeks(+PM),a=W[0].start,b=W[3].end;
+ return{M:{label:mLabel(+PM)},W,inM:S.reports.filter(x=>x.tgl>=a&&x.tgl<=b),sel:`<div class="card"><label style="margin-top:0">Bulan Hijriah</label><select onchange="PM=this.value;WK=0;render()">${keys.map(k=>`<option value="${k}" ${+PM===k?"selected":""}>${mLabel(k)}</option>`).join("")}</select><div class="mu" style="margin-top:6px">Data: ${fmtD(a)} – ${fmtD(b)} · 4 pekan, tiap pekan 7 hari (Rabu–Selasa)</div></div>`}}
+const ic=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`,BOOK='<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>';
+const IC={ber:ic('<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'),riw:ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),lap:ic('<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4"/><path d="M8 13h8M8 17h5"/>'),mi:ic(BOOK),mat:ic(BOOK),
+ rek:ic('<path d="M3 20h18"/><path d="M6 20v-8M12 20V5M18 20v-5"/>'),pkn:ic('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>'),pd:ic('<circle cx="12" cy="8" r="4"/><path d="M4.5 20c.8-3.6 4-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/>'),dai:ic('<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.6-3.2 3.4-5 6.5-5s5.9 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.4.2 4.2 1.7 4.7 4.5"/>')};
+function rekapJenis(inP,dais){
+ const rq=RD?inP.filter(x=>x.dai===RD):inP,T=wsum(rq),u=dais.find(d=>d.id===RD);
+ return `${xbtn("rekap-jenis")}<h3>Rekap per Jenis Kegiatan</h3><select onchange="RD=this.value;render()"><option value="">Semua dai</option>${dais.map(d=>`<option value="${esc(d.id)}" ${RD===d.id?"selected":""}>${esc(d.name)}</option>`).join("")}</select>
+ ${u?`<div style="display:flex;gap:10px;align-items:center;margin-top:10px">${avatar(u,40)}<b>${esc(u.name)}</b></div>`:""}
+ <div class="tw" style="margin-top:10px"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jamaah</th><th>Jam</th><th>KM</th><th>Tempat</th></tr>${N.map(n=>{const q=rq.filter(x=>x.jenis===n),w=wsum(q),tp=[...new Set(q.map(x=>x.tempat).filter(p=>p&&p!=="-"))];return `<tr><td>${n}</td><td>${w.n}</td><td>${w.j}</td><td>${fj(w.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(w.km)}</td><td style="white-space:normal;min-width:160px">${tp.map(p=>esc(p)).join(", ")||"–"}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${T.j}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td><td></td></tr></table></div>`}
+const MTL={n:"Kegiatan",j:"Jamaah",h:"Jam"};
+function pknView(){
+ const{W,inM:inP,sel}=monthCtx(),t=today();
+ if(!(WK>=1&&WK<=W.length)){const c=W.find(w=>t>=w.start&&t<=w.end);WK=c?c.n:1}
+ const w=W[WK-1],rw=inW(inP,w),T=wsum(rw),per=W.map(x=>wsum(inW(inP,x)));
+ const dais=S.users.filter(u=>u.role==="dai").map(u=>({u,...wsum(rw.filter(x=>x.dai===u.id))})).sort((a,b)=>b.h-a.h),mx=Math.max(...dais.map(d=>d.h),1);
+ return sel+`<div class="card">${xbtn("perkembangan-pekan")}<h3>Perkembangan per Pekan</h3><table hidden><tr><th>Pekan</th><th>Kegiatan</th><th>Jamaah</th><th>Jam</th></tr>${W.map((x,i)=>`<tr><td>${x.n}</td><td>${per[i].n}</td><td>${per[i].j}</td><td>${fj(per[i].h)}</td></tr>`).join("")}</table><div class="pills">${Object.keys(MTL).map(k=>`<button class="${MT===k?"on":""}" onclick="MT='${k}';render()">${MTL[k]}</button>`).join("")}</div>${svgBars(W.map(x=>"Pkn "+x.n),per.map(p=>p[MT]),WK-1)}<div class="mu">Total ${MTL[MT].toLowerCase()} tiap pekan. Sisa hari di akhir bulan masuk Pekan 1 bulan berikutnya.</div></div>
+ <div class="pills">${W.map(x=>`<button class="${x.n===WK?"on":""}" onclick="WK=${x.n};render()">Pekan ${x.n}</button>`).join("")}</div>
+ <div class="card">${xbtn("rekap-kegiatan-pekan")}<h3>Rekap per Kegiatan · Pekan ${w.n}</h3><div class="mu" style="margin-bottom:8px">${fmtR(w)}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jamaah</th><th>Jam</th></tr>${N.map(n=>{const s=wsum(rw.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${s.j}</td><td>${fj(s.h)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${T.j}</b></td><td><b>${fj(T.h)}</b></td></tr></table></div></div>
+ <div class="card">${xbtn("rekap-dai-pekan")}<h3>Rekap Dai · Pekan ${w.n}</h3><table hidden><tr><th>Dai</th><th>Kegiatan</th><th>Jam</th></tr>${dais.map(d=>`<tr><td>${esc(d.u.name)}</td><td>${d.n}</td><td>${fj(d.h)}</td></tr>`).join("")}</table>${dais.length?dais.map(d=>`<div class="item"><div style="display:flex;gap:10px;align-items:center">${avatar(d.u,34)}<div style="flex:1;min-width:0"><b>${esc(d.u.name)}</b><div class="mu">${d.n} kegiatan · ${fj(d.h)} jam</div></div></div>${bar(d.h,mx)}</div>`).join(""):'<p class="mu">Belum ada dai.</p>'}</div>`}
+function pdView(){
+ const{M,W,sel,inM:inP}=monthCtx(),dais=S.users.filter(u=>u.role==="dai").sort((a,b)=>a.name.localeCompare(b.name));
+ if(!dais.length)return sel+'<div class="card"><p class="mu">Belum ada dai.</p></div>';
+ if(!dais.some(d=>d.id===PD))PD=dais[0].id;
+ const d=dais.find(x=>x.id===PD),r=inP.filter(x=>x.dai===d.id),T=wsum(r);
+ return sel+`<div class="card"><label style="margin-top:0">Pilih dai</label><select onchange="PD=this.value;render()">${dais.map(x=>`<option value="${esc(x.id)}" ${x.id===PD?"selected":""}>${esc(x.name)}</option>`).join("")}</select></div>
+ <div class="card prof">${avatar(d,84)}<div style="flex:1;min-width:0"><h3 style="margin:0">${esc(d.name)}</h3><div class="mu">@${esc(d.username)}${d.libur!=null?" · libur "+HR[d.libur]:""}</div><div class="big">${fj(T.h)} <span class="mu">jam · ${fj(T.km)} km</span></div></div></div>
+ <div class="card">${xbtn("rekap-per-dai-bulan")}<h3>Rekap per Kegiatan</h3><div class="mu" style="margin-bottom:8px">${M.label}</div><div class="tw"><table><tr><th>Kegiatan</th><th>Jumlah</th><th>Jam</th><th>KM</th></tr>${N.map(n=>{const s=wsum(r.filter(x=>x.jenis===n));return `<tr><td>${n}</td><td>${s.n}</td><td>${fj(s.h)}</td><td>${n==="Manhaj Ilmy"?"–":fj(s.km)}</td></tr>`}).join("")}<tr><td><b>Total</b></td><td><b>${T.n}</b></td><td><b>${fj(T.h)}</b></td><td><b>${fj(T.km)}</b></td></tr></table></div></div>
+ <div class="card"><h3>Jam per Pekan</h3>${svgBars(W.map(x=>"Pkn "+x.n),W.map(x=>wsum(inW(r,x)).h),-1)}</div>`}
+async function delLap(id){
+ const x=S.reports.find(r=>r.id===id);if(!x)return;
+ if(!confirm("Hapus laporan ini?\n"+x.daiNama+" · "+x.jenis+" · "+x.tgl+"\n\nLaporan akan hilang dari semua rekap dan tidak bisa dikembalikan."))return;
+ const{error,count}=await sb.from("reports").delete({count:"exact"}).eq("id",id);
+ if(error)return alert("Gagal menghapus: "+error.message);
+ if(!count)return alert("Laporan tidak terhapus. Pastikan update-v3.sql sudah dijalankan di Supabase.");
+ if(x.foto){const m=x.foto.split("/object/public/foto/")[1];if(m)try{await sb.storage.from("foto").remove([decodeURIComponent(m.split("?")[0])])}catch(e){}}
+ await loadAll()}
+const LOC=()=>LANG==="ar"?"ar-u-nu-latn":"id-ID";
+const AR={"ahlan wa sahlan": "أهلاً وسهلاً", "ustadz": "الأستاذ", "masuk": "دخول", "keluar": "خروج", "username": "اسم المستخدم", "kata sandi awal": "كلمة المرور الأولية", "kata sandi": "كلمة المرور", "sandi": "كلمة المرور", "isi username dan sandi.": "أدخل اسم المستخدم وكلمة المرور.", "username atau sandi salah.": "اسم المستخدم أو كلمة المرور غير صحيحة.", "memeriksa…": "جارٍ التحقق…", "memuat…": "جارٍ التحميل…", "menyimpan…": "جارٍ الحفظ…", "membuat akun…": "جارٍ إنشاء الحساب…", "akun ini belum terdaftar. hubungi koordinator.": "هذا الحساب غير مسجّل. تواصل مع المنسّق.", "belum dikonfigurasi": "لم يتم الإعداد بعد", "isi supabase_url dan supabase_anon_key di file config.js.": "أدخل SUPABASE_URL وSUPABASE_ANON_KEY في ملف config.js.", "beranda": "الرئيسية", "riwayat laporan": "سجل التقارير", "riwayat": "السجل", "laporan kegiatan": "تقرير النشاط", "laporan masuk": "التقارير الواردة", "kirim laporan": "إرسال التقرير", "ubah laporan": "تعديل التقرير", "simpan perubahan": "حفظ التعديلات", "ubah": "تعديل", "laporan": "التقرير", "belum ada laporan.": "لا توجد تقارير بعد.", "laporan bisa diubah dalam 24 jam setelah dikirim.": "يمكن تعديل التقرير خلال 24 ساعة من إرساله.", "manhaj ilmy": "المنهج العلمي", "manhaj": "المنهج", "ringkasan": "الملخص", "pekanan": "الأسبوعي", "per dai": "حسب الداعية", "kelola": "الإدارة", "presensi hari ini": "حضور اليوم", "hadir": "حاضر", "izin": "بإذن", "sakit": "مريض", "absen": "غائب", "libur": "إجازة", "hari libur mingguan": "يوم الإجازة الأسبوعي", "belum dipilih": "لم يُحدَّد", "hari ini hari libur anda.": "اليوم هو يوم إجازتك.", "ahad": "الأحد", "senin": "الاثنين", "selasa": "الثلاثاء", "rabu": "الأربعاء", "kamis": "الخميس", "jumat": "الجمعة", "sabtu": "السبت", "muharram": "محرم", "safar": "صفر", "rabiul awal": "ربيع الأول", "rabiul akhir": "ربيع الآخر", "jumadil awal": "جمادى الأولى", "jumadil akhir": "جمادى الآخرة", "rajab": "رجب", "syaban": "شعبان", "ramadhan": "رمضان", "syawal": "شوال", "dzulqa'dah": "ذو القعدة", "dzulhijjah": "ذو الحجة", "hijriah": "هجري", "target hari ini": "هدف اليوم", "target periode": "هدف الفترة", "target": "الهدف", "hari ini": "اليوم", "periode ini": "هذه الفترة", "sisa": "المتبقي", "jarak tempuh (km)": "المسافة المقطوعة (كم)", "jarak tempuh": "المسافة المقطوعة", "km": "كم", "hari ke-": "اليوم ", "bagian ke-": "الجزء ", "ke-": "رقم ", "hari": "أيام", "jam mulai": "وقت البدء", "jam selesai": "وقت الانتهاء", "jam per pekan": "الساعات لكل أسبوع", "jam": "ساعة", "durasi": "المدة", "lama": "المدة", "mnt": "د", "jenis kegiatan": "نوع النشاط", "tanggal": "التاريخ", "jumlah jamaah": "عدد الحضور", "jamaah": "الحضور", "tempat": "المكان", "nama masjid / lokasi": "اسم المسجد / الموقع", "catatan (opsional)": "ملاحظات (اختياري)", "foto kegiatan (opsional)": "صورة النشاط (اختياري)", "pas foto (opsional)": "صورة شخصية (اختياري)", "foto": "صورة", "kamera": "الكاميرا", "galeri": "المعرض", "ganti": "تغيير", "batal": "إلغاء", "bagian / pelajaran ke-berapa yang dibaca": "رقم الجزء / الدرس الذي قُرئ", "materi manhaj ilmy yang dibaca": "مادة المنهج العلمي المقروءة", "materi": "المادة", "bagian": "الجزء", "isi tanggal, jam, materi, dan bagian ke-berapa.": "أدخل التاريخ والوقت والمادة ورقم الجزء.", "isi tanggal, jam, jumlah jamaah, tempat, dan jarak tempuh (km).": "أدخل التاريخ والوقت وعدد الحضور والمكان والمسافة المقطوعة (كم).", "batas 24 jam untuk mengubah sudah lewat.": "انتهت مهلة الـ24 ساعة للتعديل.", "gagal unggah foto:": "فشل رفع الصورة:", "gagal menyimpan:": "فشل الحفظ:", "gagal menghapus:": "فشل الحذف:", "gagal:": "فشل:", "foto tidak bisa dibaca.": "تعذّرت قراءة الصورة.", "akun dibuat, tetapi foto gagal:": "تم إنشاء الحساب لكن فشلت الصورة:", "hapus akun dai ini? riwayat laporannya tetap tersimpan.": "حذف حساب هذا الداعية؟ سيبقى سجل تقاريره محفوظاً.", "hapus laporan ini?": "حذف هذا التقرير؟", "laporan akan hilang dari semua rekap dan tidak bisa dikembalikan.": "سيختفي التقرير من جميع الملخصات ولا يمكن استرجاعه.", "laporan tidak terhapus. pastikan update-v3.sql sudah dijalankan di supabase.": "لم يُحذف التقرير. تأكد من تشغيل update-v3.sql في Supabase.", "hapus": "حذف", "belum ada data.": "لا توجد بيانات بعد.", "belum ada dai.": "لا يوجد دعاة بعد.", "belum ada.": "لا يوجد بعد.", "koordinator belum menambahkan materi.": "لم يضف المنسّق مواد بعد.", "koordinator": "المنسّق", "absensi saya": "حضوري", "absensi manhaj ilmy dai": "حضور الدعاة في المنهج العلمي", "absensi terisi otomatis dari laporan kegiatan": "يُسجَّل الحضور تلقائياً من تقرير نشاط", "di menu laporan.": "في قائمة التقرير.", "perkembangan manhaj ilmy": "تقدّم المنهج العلمي", "perkembangan per pekan": "التقدم الأسبوعي", "tutup video": "إغلاق الفيديو", "buka di youtube": "افتح في يوتيوب", "putar playlist di sini": "تشغيل القائمة هنا", "buka video": "فتح الفيديو", "kitab (pdf)": "الكتاب (PDF)", "judul materi / kitab": "عنوان المادة / الكتاب", "link pdf kitab": "رابط كتاب PDF", "link playlist youtube": "رابط قائمة يوتيوب", "simpan materi": "حفظ المادة", "daftar materi": "قائمة المواد", "tambah materi": "إضافة مادة", "isi judul dan minimal satu link.": "أدخل العنوان ورابطاً واحداً على الأقل.", "link harus diawali http(s)://": "يجب أن يبدأ الرابط بـ http(s)://", "tambah akun dai": "إضافة حساب داعية", "nama dai": "اسم الداعية", "buat akun": "إنشاء الحساب", "daftar dai": "قائمة الدعاة", "pilih dai": "اختر الداعية", "semua dai": "كل الدعاة", "dai": "الداعية", "isi nama, username (huruf kecil/angka), dan sandi min. 6 karakter.": "أدخل الاسم واسم المستخدم (أحرف صغيرة/أرقام) وكلمة مرور لا تقل عن 6 أحرف.", "username sudah dipakai": "اسم المستخدم مستخدم مسبقاً", "periode (16–15 hijriah)": "الفترة (16–15 هجري)", "bulan hijriah": "الشهر الهجري", "belum isi": "لم يُدخلوا", "capaian per dai": "إنجاز كل داعية", "rekap manhaj ilmy per dai": "ملخص المنهج العلمي لكل داعية", "rekap per dai": "ملخص كل داعية", "rekap per jenis kegiatan": "الملخص حسب نوع النشاط", "rekap per kegiatan": "الملخص حسب النشاط", "rekap dai": "ملخص الدعاة", "semua kegiatan": "كل الأنشطة", "jumlah materi": "عدد المواد", "sesi": "الجلسات", "jumlah": "العدد", "total": "الإجمالي", "kegiatan": "النشاط", "persen": "النسبة المئوية", "data": "البيانات", "ekspor excel": "تصدير إلى Excel", "tidak ada data untuk diekspor.": "لا توجد بيانات للتصدير.", "sisa hari di akhir bulan masuk pekan 1 bulan berikutnya.": "تُحتسب الأيام المتبقية في نهاية الشهر ضمن الأسبوع 1 من الشهر التالي.", "tiap pekan": "كل أسبوع", "pekan": "أسبوع", "pkn": "أ", "bulan berikutnya": "الشهر التالي", "bulan": "شهر", "khutbah jum'at": "خطبة الجمعة", "muhadoroh ammah": "المحاضرات العامة", "taklim mujtama'": "تعليم المجتمع", "taklim syabab": "تعليم الشباب", "taklim atfhal": "تعليم الأطفال", "dakwah abra jawwal": "الدعوة عبر الجوال", "ziyaroh": "الزيارة", "dakwah ammah": "الدعوة العامة"};
+const RX=[[/Total (kegiatan|jamaah|jam) tiap pekan\./gi,"إجمالي $1 كل أسبوع."],[/(\d+) kegiatan/gi,"$1 نشاط"],[/Hari ke-(\d+) dari (\d+) periode ini\. Jam kerja baru ([\d,]+) dari (\d+); kurang ([\d,]+) jam\./g,"اليوم $1 من $2 في هذه الفترة. ساعات العمل $3 من $4؛ المتبقي $5 ساعة."],[/Jam kerja hari ini ([\d,]+) dari 8 jam\. Belum tercapai\./g,"ساعات العمل اليوم $1 من 8 ساعات. لم يتحقق الهدف بعد."],[/Terakhir dibaca: (.+), bagian ke-(\d+)/g,"آخر قراءة: $1، الجزء $2"]];
+const ARX=new RegExp("(?<![A-Za-z0-9@._-])("+Object.keys(AR).sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?![A-Za-z])","gi");
+const T=s=>{if(LANG!=="ar")return s;let r=String(s);RX.forEach(([a,b])=>r=r.replace(a,b));return r.replace(ARX,m=>AR[m.toLowerCase()]||m).replace(/(\d)H\b/g,"$1هـ")};
+const _al=window.alert.bind(window),_cf=window.confirm.bind(window);window.alert=m=>_al(T(m));window.confirm=m=>_cf(T(m));
+function trNode(n){if(LANG!=="ar")return;
+ if(n.nodeType===3){const p=n.parentNode;if(p&&p.nodeName&&!/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName)&&!(p.closest&&p.closest("[translate=no]"))){const v=T(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v}return}
+ if(n.nodeType===1){if(/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.nodeName))return;[n,...n.querySelectorAll("[placeholder]")].forEach(e=>{if(e.hasAttribute&&e.hasAttribute("placeholder"))e.placeholder=T(e.placeholder)});
+  const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);a.forEach(trNode)}}
+function startTr(){new MutationObserver(ms=>ms.forEach(m=>{if(m.type==="characterData")trNode(m.target);else m.addedNodes.forEach(trNode)})).observe(document.body,{childList:true,subtree:true,characterData:true});trNode(document.body)}
+function toggleLang(){LANG=LANG==="ar"?"id":"ar";try{localStorage.setItem("lang",LANG)}catch(e){}render()}
+const xbtn=n=>`<button class="s xb" data-n="${n}" onclick="xl(this)">Ekspor Excel</button>`;
+const loadX=()=>window.XLSX?Promise.resolve():new Promise((ok,no)=>{const e=document.createElement("script");e.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";e.onload=ok;e.onerror=no;document.head.appendChild(e)});
+async function xl(btn){
+ const c=btn.closest(".card"),t=c&&c.querySelector("table");if(!t)return alert("Tidak ada data untuk diekspor.");
+ const rows=[...t.rows].map(r=>[...r.cells]),keep=rows[0].map(c=>c.textContent.trim()!=="");
+ const aoa=rows.map(r=>r.filter((c,i)=>keep[i]).map(c=>{const a=c.querySelector("a[href]"),x=c.textContent.replace(/\s+/g," ").trim();if(a&&!x)return a.href;const n=x.replace(",",".");return /^-?\d+(\.\d+)?$/.test(n)?+n:x}));
+ const f=btn.dataset.n+"-"+today();try{await loadX()}catch(e){}
+ if(window.XLSX){const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Rekap");if(LANG==="ar")wb.Workbook={Views:[{RTL:true}]};XLSX.writeFile(wb,f+".xlsx")}
+ else{const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"',a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+aoa.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"}));a.download=f+".csv";a.click()}}
+function rekapManhaj(){
+ const{M,sel,inM}=monthCtx(),mr=inM.filter(x=>x.jenis==="Manhaj Ilmy"),dd=S.users.filter(u=>u.role==="dai");
+ const rows=dd.map(d=>{const q=mr.filter(x=>x.dai===d.id);return{d,h:q.reduce((s,x)=>s+(x.durasi||0),0)/60,m:new Set(q.map(x=>x.materi)).size,n:q.length}}).sort((a,b)=>b.h-a.h);
+ return sel+`<div class="card">${xbtn("manhaj-per-dai")}<h3>Rekap Manhaj Ilmy per Dai · ${M.label}</h3><div class="tw"><table><tr><th>Dai</th><th>Jam</th><th>Jumlah Materi</th><th>Sesi</th></tr>${rows.map(r=>`<tr><td>${esc(r.d.name)}</td><td>${fj(r.h)}</td><td>${r.m}</td><td>${r.n}</td></tr>`).join("")||'<tr><td colspan="4">Belum ada dai.</td></tr>'}</table></div></div>`}
+async function addDai(){
+ const nm=$("#nm").value.trim(),un=$("#un").value.trim().toLowerCase(),pw=$("#pw").value;
+ if(!nm||!/^[a-z0-9._-]+$/.test(un)||pw.length<6)return $("#er").textContent="Isi nama, username (huruf kecil/angka), dan sandi min. 6 karakter.";
+ $("#er").textContent="Membuat akun…";
+ const tmp=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+ const{data,error}=await tmp.auth.signUp({email:EM(un),password:pw});
+ if(error||!data.user)return $("#er").textContent="Gagal: "+(error?.message||"username sudah dipakai");
+ const r=await sb.from("profiles").insert({id:data.user.id,username:un,name:nm,role:"dai"});
+ if(r.error)return $("#er").textContent="Gagal: "+r.error.message;
+ const pf=$("#pf")?.files[0];if(pf){const e=await uploadProfil(data.user.id,pf);if(e)alert("Akun dibuat, tetapi foto gagal: "+e)}
+ await loadAll()}
+async function delDai(id){if(confirm("Hapus akun dai ini? Riwayat laporannya tetap tersimpan.")){await sb.from("profiles").delete().eq("id",id);await loadAll()}}
+async function addMat(){const j=$("#mj").value.trim(),p=$("#mp").value.trim(),y=$("#my").value.trim();
+ if(!j||(!p&&!y))return $("#er").textContent="Isi judul dan minimal satu link.";
+ for(const u of [p,y])if(u&&!/^https?:\/\//.test(u))return $("#er").textContent="Link harus diawali http(s)://";
+ const{error}=await sb.from("materi").insert({judul:j,pdf:p||null,yt:y||null});
+ if(error)return $("#er").textContent="Gagal: "+error.message;await loadAll()}
+async function delMat(id){await sb.from("materi").delete().eq("id",id);await loadAll()}
+function csv(){const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
+ const t=["Tanggal,Dai,Kegiatan,Mulai,Selesai,Durasi(menit),Jamaah,Tempat,KM,Materi,Bagian,Catatan",...(window._r||[]).map(x=>[x.tgl,x.daiNama,x.jenis,x.mulai,x.selesai,x.durasi,x.jamaah,x.tempat,x.km,x.materi,x.bagian,x.catatan].map(q).join(","))].join("\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv"}));a.download="dai-arrisalah.csv";a.click()}
+init();
+</script></body></html>
