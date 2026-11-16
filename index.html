@@ -370,7 +370,7 @@ async function backupAll(btn){
    ["Absensi Manhaj",[["No","Tanggal","Dai","Materi","Bagian","Lama (menit)"],...mr.map((x,i)=>[i+1,x.tgl,dn(x),x.materi||"",x.bagian||"",x.durasi||0])]],
    ["Rekap Periode",[["Periode","Dai","Kegiatan (dihitung)","Jam","KM","Jamaah"],...Object.values(agg).sort((a,b)=>b.pr.key-a.pr.key||a.d.localeCompare(b.d)).map(a=>[a.pr.label,a.d,a.n,Math.round(a.h*10)/10,Math.round(a.km*10)/10,a.j])]]];
   const wb=XLSX.utils.book_new();
-  sheets.forEach(([n,rows])=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=rows[Math.min(1,rows.length-1)].map((_,c)=>({wch:Math.min(48,Math.max(10,...rows.map(r=>String(r[c]??"").length)+0))}));XLSX.utils.book_append_sheet(wb,ws,n)});
+  sheets.forEach(([n,rows])=>{const ws=XLSX.utils.aoa_to_sheet(rows);const nc=rows.reduce((m,r)=>Math.max(m,r.length),0);ws["!cols"]=Array.from({length:nc},(_,c)=>({wch:Math.min(48,rows.reduce((m,r)=>Math.max(m,String(r[c]??"").length),10))}));XLSX.utils.book_append_sheet(wb,ws,n)});
   if(LANG==="ar")wb.Workbook={Views:[{RTL:true}]};
   XLSX.writeFile(wb,"backup-dai-arrisalah-"+today()+".xlsx");
  }catch(e){alert("Gagal backup: "+(e.message||e))}
