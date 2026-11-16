@@ -58,7 +58,7 @@ table[hidden]{display:none}
 .login{text-align:center}.login img{width:90px;margin:8px auto}
 </style></head><body>
 <header><img class="hl" src="logo-full.png" alt="Yayasan Peduli Kemanusiaan Arrisalah"><b translate="no"></b><button class="lg" id="lg" onclick="toggleLang()"></button><span id="who"></span></header>
-<main id="app"><p class="mu">Memuat…</p></main><div id="nv"></div>
+<main id="app"><p class="mu">Memuat…</p></main><div class="mu" style="text-align:center;font-size:11px;margin:8px 0 4px">Versi 9.2</div><div id="nv"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script>
@@ -370,7 +370,7 @@ async function backupAll(btn){
    ["Absensi Manhaj",[["No","Tanggal","Dai","Materi","Bagian","Lama (menit)"],...mr.map((x,i)=>[i+1,x.tgl,dn(x),x.materi||"",x.bagian||"",x.durasi||0])]],
    ["Rekap Periode",[["Periode","Dai","Kegiatan (dihitung)","Jam","KM","Jamaah"],...Object.values(agg).sort((a,b)=>b.pr.key-a.pr.key||a.d.localeCompare(b.d)).map(a=>[a.pr.label,a.d,a.n,Math.round(a.h*10)/10,Math.round(a.km*10)/10,a.j])]]];
   const wb=XLSX.utils.book_new();
-  sheets.forEach(([n,rows])=>{const ws=XLSX.utils.aoa_to_sheet(rows);const nc=rows.reduce((m,r)=>Math.max(m,r.length),0);ws["!cols"]=Array.from({length:nc},(_,c)=>({wch:Math.min(48,rows.reduce((m,r)=>Math.max(m,String(r[c]??"").length),10))}));XLSX.utils.book_append_sheet(wb,ws,n)});
+  sheets.forEach(([n,rows])=>{const ws=XLSX.utils.aoa_to_sheet(rows);const nc=rows.reduce((m,r)=>Math.max(m,r.length),0);ws["!cols"]=Array.from({length:nc},(_,c)=>({wch:Math.min(48,rows.reduce((m,r)=>Math.max(m,String(r[c]??"").length),10))||12}));XLSX.utils.book_append_sheet(wb,ws,n)});
   if(LANG==="ar")wb.Workbook={Views:[{RTL:true}]};
   XLSX.writeFile(wb,"backup-dai-arrisalah-"+today()+".xlsx");
  }catch(e){alert("Gagal backup: "+(e.message||e))}
